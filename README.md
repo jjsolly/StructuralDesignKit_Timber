@@ -1,6 +1,6 @@
-# SDK_H - Structural Design Kit Holz
+# SDK_H - Structural Design Kit TIMBER
 SDK_H aims at simplifying the daily work of structural engineers working on timber projects. At its core, the SDK_H is a C# library which implements the logic and technical rules from the Eurocodes 5 (DIN EN 1995) and some related utilities. This core can be accessed in any application running on the Microsoft .NET platform. In addition to the core library, the project currently exposes the SDK_H Core into MS Excel and Grasshopper for Rhino.
-This project is supported by knippershelbig GmbH
+This project was originally supported by knippershelbig GmbH
 
 <b>Excel</b>
 
@@ -25,7 +25,7 @@ The latest Grasshopper connector can be found here _(to come)_
 
 
 ## Authors
-The project has been started and is currently maintained by Guillaume Caussarieu at knippershelbig GmbH.
+The project has been started and is currently maintained by Guillaume Caussarieu at ITERATIONS 
 Each contributor holds copyright over their respective contributions. The project versioning (Git) records all such contribution source information. See [LICENSE.md](https://github.com/Gcaussarieu/StructuralDesignKit/blob/master/LICENSE) and COPYRIGHT_HEADER.
 
 ## Disclaimer
@@ -36,7 +36,7 @@ Please feel free to send any feedback. You can contact us by email or use the [g
 If you want to participate in making timber engineering better for everyone, get in touch or simply use the GitHub Pull Request
 
 ## Support / Contact
-For any question, please contact g.caussarieu@knippershelbig.com
+For any question, please contact g.caussarieu@iterations-engineering.com
 
 ## Built With
 The Excel connector makes extensive use of the great work of Govert van Drimmelen and its [Excel-DNA library](https://excel-dna.net/)
