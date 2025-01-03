@@ -260,16 +260,6 @@ namespace StructuralDesignKitLibrary.Materials
 
 
 
-
-
-
-
-
-
-
-
-
-
         public static readonly double b0 = 0.65; //according to DIN EN 1995 - 1 - 2 table 3.1
         public static readonly double bn = 0.80; //according to DIN EN 1995 - 1 - 2 table 3.1
 

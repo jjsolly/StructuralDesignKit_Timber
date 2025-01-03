@@ -86,11 +86,13 @@
     <Compile Include="EC5\EC5_CrossSectionCheck.cs" />
     <Compile Include="EC5\EC5_Factors.cs" />
     <Compile Include="EC5\EC5_Utilities.cs" />
+    <Compile Include="Materials\Interfaces\IMaterialPanel.cs" />
     <Compile Include="Materials\Interfaces\IMaterialTimber.cs" />
     <Compile Include="Materials\MaterialTimberHardwood.cs" />
     <Compile Include="Materials\MaterialTimberGlulam.cs" />
     <Compile Include="Materials\MaterialTimberBaubuche.cs" />
     <Compile Include="Materials\MaterialCLT.cs" />
+    <Compile Include="Materials\MaterialTimberOSB.cs" />
     <Compile Include="Materials\MaterialTimberSoftwood.cs" />
     <Compile Include="Materials\MaterialTimberGeneric.cs" />
     <Compile Include="Materials\Interfaces\IMaterial.cs" />
@@ -109,6 +111,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\gc\AppData\Roaming\Grasshopper\Libraries\KH\StructuralDesignKitLibrary.dll</PostBuildEvent>
+    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\Guillaume Caussarieu\AppData\Roaming\Grasshopper\Libraries\SDK\StructuralDesignKitLibrary.dll</PostBuildEvent>
   </PropertyGroup>
 </Project>

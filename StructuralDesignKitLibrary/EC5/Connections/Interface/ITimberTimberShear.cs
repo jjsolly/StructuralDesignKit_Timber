@@ -65,13 +65,5 @@ namespace StructuralDesignKitLibrary.Connections.Interface
         double Fhk2 { get; set; }
 
        
-
-
-
-
-        /*
-TimberTimberSingleShear
-TimberTimberDoubleShear
-        */
     }
 }

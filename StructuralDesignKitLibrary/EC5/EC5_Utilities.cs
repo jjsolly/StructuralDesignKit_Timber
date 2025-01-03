@@ -1,5 +1,4 @@
-﻿using Dlubal.WS.Rfem6.Model;
-using StructuralDesignKitLibrary.Materials;
+﻿using StructuralDesignKitLibrary.Materials;
 using StructuralDesignKitLibrary.Utilities;
 using System;
 using System.CodeDom;
@@ -20,6 +19,7 @@ namespace StructuralDesignKitLibrary.EC5
             Glulam,
             LVL,
             Baubuche,
+            OSB,
         }
 
         public enum ServiceClass
@@ -42,8 +42,8 @@ namespace StructuralDesignKitLibrary.EC5
         public enum FastenerType
         {
             Bolt,
-            Dowel
-            //Nail,
+            Dowel,
+            Nail,
             //Staple,
             //Screw,
             //Bulldog,

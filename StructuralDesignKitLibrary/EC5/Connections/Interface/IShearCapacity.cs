@@ -38,7 +38,7 @@ namespace StructuralDesignKitLibrary.EC5.Connections.Interface
         /// <summary>
         /// Capacity of the fastener. This value is the minimum of the failure modes multiplied by the number of shear plane considered for the failure mode
         /// </summary>
-        [Description("apacity of the fastener. This value is the minimum of the failure modes multiplied by the number of shear plane considered for the failure mode")]
+        [Description("Capacity of the fastener. This value is the minimum of the failure modes multiplied by the number of shear plane considered for the failure mode")]
         double Capacity { get; set; }
 
         /// <summary>
