@@ -63,7 +63,7 @@ namespace StructuralDesignKitLibrary.Connections.SteelTimberShear
             Fastener.ComputeEmbedmentStrength(Timber, Angle);
             double capacity = 0;
             Fastener.ComputeWithdrawalStrength(this);
-            double RopeEffectCapacity = Fastener.WithdrawalStrength / 4;
+            double RopeEffectCapacity = Fastener.FaxRk / 4;
 
             //Failure mode according to EN 1995-1-1 Eq (8.10)
 

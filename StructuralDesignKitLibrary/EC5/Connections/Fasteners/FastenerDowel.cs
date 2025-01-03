@@ -1,4 +1,5 @@
-﻿using StructuralDesignKitLibrary.Connections.Interface;
+﻿using Dlubal.WS.Rfem6.Model;
+using StructuralDesignKitLibrary.Connections.Interface;
 using StructuralDesignKitLibrary.EC5;
 using StructuralDesignKitLibrary.EC5.Connections.Interface;
 using StructuralDesignKitLibrary.Materials;
@@ -24,7 +25,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
         public double Fuk { get; set; }
         public double MyRk { get; set; }
         public double Fhk { get; set; }
-        public double WithdrawalStrength { get; set; }
+        public double FaxRk { get; set; }
         public double MaxJohansenPart { get; set; }
         public double a1min { get; set; }
         public double a2min { get; set; }
@@ -47,7 +48,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
             Fuk = fuk;
             MyRk = 0.3 * Fuk * Math.Pow(Diameter, 2.6); //EN 1995-1-1 Eq (8.30)
             MaxJohansenPart = 0;
-            WithdrawalStrength = 0;
+            FaxRk = 0;
         }
         #endregion
 
@@ -159,8 +160,8 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
             return k90;
         }
 
-        public void ComputeEmbedmentStrength(IMaterialTimber timber, double angle)
-        {
+        public void ComputeEmbedmentStrength(IMaterialTimber timber, double angle,double thickness = 0)
+		{
             List<string> CoveredTimber = new List<string>() { "Softwood", "Hardwood", "Glulam", "LVL", "Baubuche" };
             if (CoveredTimber.Contains(timber.Type.ToString()))
             {
@@ -187,7 +188,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 
         public void ComputeWithdrawalStrength(IShearCapacity ConnectionType)
         {
-            WithdrawalStrength = 0;
+            FaxRk = 0;
         }
 
         public void ComputeSpacings(double angle)

@@ -26,7 +26,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
         public double Fuk { get; set; }
         public double MyRk { get; set; }
         public double Fhk { get; set; }
-        public double WithdrawalStrength { get; set; }
+        public double FaxRk { get; set; }
         public double MaxJohansenPart { get; set; }
         public double a1min { get; set; }
         public double a2min { get; set; }
@@ -160,7 +160,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
         }
 
 
-        public void ComputeEmbedmentStrength(IMaterialTimber timber, double angle)
+        public void ComputeEmbedmentStrength(IMaterialTimber timber, double angle, double thickness = 0)
         {
             List<string> CoveredTimber = new List<string>() { "Softwood", "Hardwood", "Glulam", "LVL", "Baubuche" };
             if (CoveredTimber.Contains(timber.Type.ToString()))
@@ -179,27 +179,27 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
         /// <param name="ConnectionType"></param>
         /// <exception cref="Exception"></exception>
         public void ComputeWithdrawalStrength(IShearCapacity ConnectionType)
-        {
+		{
 
             if (ConnectionType is SingleInnerSteelPlate)
             {
                 var connection = ConnectionType as SingleInnerSteelPlate;
                 double fc90k = connection.Timber.Fc90k;
-                WithdrawalStrength = Math.Min(ComputeBoltTensileStrength(), ComputeWasherCompressiveStrength(fc90k));
+                FaxRk = Math.Min(ComputeBoltTensileStrength(), ComputeWasherCompressiveStrength(fc90k));
             }
 
             else if (ConnectionType is TimberTimberSingleShear)
             {
                 var connection = ConnectionType as TimberTimberSingleShear;
                 double fc90k = Math.Min(connection.Timber1.Fc90k, connection.Timber2.Fc90k);
-                WithdrawalStrength = Math.Min(ComputeBoltTensileStrength(), ComputeWasherCompressiveStrength(fc90k));
+                FaxRk = Math.Min(ComputeBoltTensileStrength(), ComputeWasherCompressiveStrength(fc90k));
             }
 
             else if (ConnectionType is TimberTimberDoubleShear)
             {
                 var connection = ConnectionType as TimberTimberDoubleShear;
                 double fc90k = connection.Timber1.Fc90k;
-                WithdrawalStrength = Math.Min(ComputeBoltTensileStrength(), ComputeWasherCompressiveStrength(fc90k));
+                FaxRk = Math.Min(ComputeBoltTensileStrength(), ComputeWasherCompressiveStrength(fc90k));
             }
 
             else if (ConnectionType is SingleOuterSteelPlate)
@@ -211,7 +211,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
                 withdrawalStrengths.Add(ComputeWasherCompressiveStrength(fc90k));
                 withdrawalStrengths.Add(ComputeWasherCompressiveStrength(fc90k,connection.SteelPlateThickness));
 
-                WithdrawalStrength = withdrawalStrengths.Min();
+                FaxRk = withdrawalStrengths.Min();
             }
 
             else if (ConnectionType is DoubleOuterSteelPlate)
@@ -222,7 +222,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
                 withdrawalStrengths.Add(ComputeBoltTensileStrength());
                 withdrawalStrengths.Add(ComputeWasherCompressiveStrength(fc90k, connection.SteelPlateThickness));
 
-                WithdrawalStrength = withdrawalStrengths.Min();
+                FaxRk = withdrawalStrengths.Min();
             }
 
             else throw new Exception("Bolt Withdrawal capacity not yet implemented");

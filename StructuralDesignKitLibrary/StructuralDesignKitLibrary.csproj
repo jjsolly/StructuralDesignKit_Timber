@@ -68,6 +68,7 @@
     <Compile Include="CrossSections\CLT_Layup.cs" />
     <Compile Include="CrossSections\CrossSectionCLT.cs" />
     <Compile Include="EC5\Connections\Connection_Utilities.cs" />
+    <Compile Include="EC5\Connections\Fasteners\FastenerNail.cs" />
     <Compile Include="EC5\Connections\Fasteners\FastenerBolt.cs" />
     <Compile Include="EC5\Connections\Fasteners\FastenerDowel.cs" />
     <Compile Include="EC5\Connections\Interface\IConnection.cs" />

@@ -60,11 +60,11 @@ namespace StructuralDesignKitLibrary.Connections.TimberTimberShear
         public void ComputeFailingModes()
         {
             //Embedment strength timber 1
-            Fastener.ComputeEmbedmentStrength(Timber1, Angle1);
+            Fastener.ComputeEmbedmentStrength(Timber1, Angle1,T1);
             Fhk1 = Fastener.Fhk;
 
             //Embedment strength timber 2
-            Fastener.ComputeEmbedmentStrength(Timber2, Angle2);
+            Fastener.ComputeEmbedmentStrength(Timber2, Angle2,T2);
             Fhk2 = Fastener.Fhk;
 
 
@@ -90,7 +90,7 @@ namespace StructuralDesignKitLibrary.Connections.TimberTimberShear
             if (RopeEffect)
             {
                 Fastener.ComputeWithdrawalStrength(this);
-                RopeEffectCapacity = Fastener.WithdrawalStrength / 4;
+                RopeEffectCapacity = Fastener.FaxRk / 4;
                 capacity += Math.Min(Fastener.MaxJohansenPart * capacity, RopeEffectCapacity);
             }
             Capacities.Add(capacity);
@@ -102,7 +102,7 @@ namespace StructuralDesignKitLibrary.Connections.TimberTimberShear
             if (RopeEffect)
             {
                 Fastener.ComputeWithdrawalStrength(this);
-                RopeEffectCapacity = Fastener.WithdrawalStrength / 4;
+                RopeEffectCapacity = Fastener.FaxRk / 4;
                 capacity += Math.Min(Fastener.MaxJohansenPart * capacity, RopeEffectCapacity);
             }
             Capacities.Add(capacity);
