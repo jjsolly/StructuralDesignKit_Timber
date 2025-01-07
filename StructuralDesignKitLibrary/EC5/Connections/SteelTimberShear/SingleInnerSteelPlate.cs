@@ -8,79 +8,92 @@ using System.Threading.Tasks;
 
 namespace StructuralDesignKitLibrary.Connections.SteelTimberShear
 {
-    public class SingleInnerSteelPlate : ISteelTimberShear
-    {
+	public class SingleInnerSteelPlate : ISteelTimberShear
+	{
 
-        #region properties
-        public IFastener Fastener { get; set; }
-        public double SteelPlateThickness { get; set; }
-        public bool isTkickPlate { get; set; }
-        public bool isThinPlate { get; set; }
-        public double Angle { get; set; }
-        public IMaterialTimber Timber { get; set; }
-        public double TimberThickness { get; set; }
-        public List<string> FailureModes { get; set; }
-        public List<double> Capacities { get; set; }
-        public string FailureMode { get; set; }
+		#region properties
+		public IFastener Fastener { get; set; }
+		public double SteelPlateThickness { get; set; }
+		public bool isTkickPlate { get; set; }
+		public bool isThinPlate { get; set; }
+		public double Angle { get; set; }
+		public IMaterialTimber Timber { get; set; }
+		public double TimberThickness { get; set; }
+		public List<string> FailureModes { get; set; }
+		public List<double> Capacities { get; set; }
+		public string FailureMode { get; set; }
 
-        /// <summary>
-        /// Characteristic strength for 2 shear planes
-        /// </summary>
-        public double Capacity { get; set; }
-        public bool RopeEffect { get; set; }
-        #endregion
-
-
-        public SingleInnerSteelPlate(IFastener fastener, double steelPlateThickness, double angle, IMaterialTimber timber, double timberThickness, bool ropeEffect)
-        {
-            Fastener = fastener;
-            SteelPlateThickness = steelPlateThickness;
-            Angle = angle;
-            Timber = timber;
-            TimberThickness = timberThickness;
-            RopeEffect = ropeEffect;
-
-            //Initialize lists
-            FailureModes = new List<string>();
-            Capacities = new List<double>();
-
-            ComputeFailingModes();
-
-            Capacity = Capacities.Min() * 2;
-            FailureMode = FailureModes[Capacities.IndexOf(Capacities.Min())];
-        }
+		/// <summary>
+		/// Characteristic strength for 2 shear planes
+		/// </summary>
+		public double Capacity { get; set; }
+		public bool RopeEffect { get; set; }
+		public double Kser { get; set; }
+		public double Ku { get; set; }
+		#endregion
 
 
-        public void ComputeFailingModes()
-        {
-            Fastener.ComputeEmbedmentStrength(Timber, Angle,TimberThickness);
-            double capacity = 0;
-            double RopeEffectCapacity = 0;
+		public SingleInnerSteelPlate(IFastener fastener, double steelPlateThickness, double angle, IMaterialTimber timber, double timberThickness, bool ropeEffect)
+		{
+			Fastener = fastener;
+			SteelPlateThickness = steelPlateThickness;
+			Angle = angle;
+			Timber = timber;
+			TimberThickness = timberThickness;
+			RopeEffect = ropeEffect;
+
+			//Initialize lists
+			FailureModes = new List<string>();
+			Capacities = new List<double>();
+
+			ComputeFailingModes();
+
+			Capacity = Capacities.Min() * 2;
+			FailureMode = FailureModes[Capacities.IndexOf(Capacities.Min())];
+
+			ComputeStiffnesses();
+		}
 
 
-            //Failure mode according to EN 1995-1-1 Eq (8.11)
+		public void ComputeFailingModes()
+		{
+			Fastener.ComputeEmbedmentStrength(Timber, Angle, TimberThickness);
+			double capacity = 0;
+			double RopeEffectCapacity = 0;
 
-            //Failure mode f
-            FailureModes.Add("f");
-            Capacities.Add(Fastener.Fhk * TimberThickness * Fastener.Diameter);
 
-            //Failure mode g
-            FailureModes.Add("g");
-            capacity = Capacities[0] * (Math.Sqrt(2 + 4 * Fastener.MyRk / (Fastener.Fhk * Fastener.Diameter * Math.Pow(TimberThickness, 2))) - 1);
-            if (RopeEffect)
-            {
-                Fastener.ComputeWithdrawalStrength(this);
-                RopeEffectCapacity = Fastener.FaxRk / 4;
-                capacity += Math.Min(Fastener.MaxJohansenPart * capacity, RopeEffectCapacity);
-            }
-            Capacities.Add(capacity);
+			//Failure mode according to EN 1995-1-1 Eq (8.11)
 
-            //Failure mode h
-            FailureModes.Add("h");
-            capacity = 2.3 * Math.Sqrt(Fastener.MyRk * Fastener.Fhk * Fastener.Diameter);
-            if (RopeEffect) capacity += Math.Min(Fastener.MaxJohansenPart * capacity, RopeEffectCapacity);
-            Capacities.Add(capacity);
+			//Failure mode f
+			FailureModes.Add("f");
+			Capacities.Add(Fastener.Fhk * TimberThickness * Fastener.Diameter);
 
-        }
-    }
+			//Failure mode g
+			FailureModes.Add("g");
+			capacity = Capacities[0] * (Math.Sqrt(2 + 4 * Fastener.MyRk / (Fastener.Fhk * Fastener.Diameter * Math.Pow(TimberThickness, 2))) - 1);
+			if (RopeEffect)
+			{
+				Fastener.ComputeWithdrawalStrength(this);
+				RopeEffectCapacity = Fastener.FaxRk / 4;
+				capacity += Math.Min(Fastener.MaxJohansenPart * capacity, RopeEffectCapacity);
+			}
+			Capacities.Add(capacity);
+
+			//Failure mode h
+			FailureModes.Add("h");
+			capacity = 2.3 * Math.Sqrt(Fastener.MyRk * Fastener.Fhk * Fastener.Diameter);
+			if (RopeEffect) capacity += Math.Min(Fastener.MaxJohansenPart * capacity, RopeEffectCapacity);
+			Capacities.Add(capacity);
+
+		}
+
+		public void ComputeStiffnesses()
+		{
+			Kser = Fastener.ComputeSlipModulus(Timber.RhoMean);
+			Kser *= 2; //for steel to timber connection, Kser may be multiplied by 2.0 (EN 1995-1-1 §7.1(2))
+			Kser *= 2;//For 2 shear plane
+
+			Ku = Kser * 2 / 3;
+		}
+	}
 }

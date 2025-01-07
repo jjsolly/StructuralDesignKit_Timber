@@ -28,10 +28,12 @@ namespace StructuralDesignKitLibrary.Connections.SteelTimberShear
         /// </summary>
         public double Capacity { get; set; }
         public bool RopeEffect { get; set; }
-        #endregion
+		public double Kser  { get; set; }
+		public double Ku { get; set; }
+		#endregion
 
 
-        public DoubleOuterSteelPlate(IFastener fastener, double steelPlateThickness, double angle, IMaterialTimber timber, double timberThickness, bool ropeEffect)
+		public DoubleOuterSteelPlate(IFastener fastener, double steelPlateThickness, double angle, IMaterialTimber timber, double timberThickness, bool ropeEffect)
         {
             Fastener = fastener;
             SteelPlateThickness = steelPlateThickness;
@@ -63,7 +65,9 @@ namespace StructuralDesignKitLibrary.Connections.SteelTimberShear
             Capacity = Capacity * 2;
 
             FailureMode = FailureModes[Capacities.IndexOf(Capacities.Min())];
-        }
+
+			ComputeStiffnesses();
+		}
 
 
         public void ComputeFailingModes()
@@ -109,5 +113,14 @@ namespace StructuralDesignKitLibrary.Connections.SteelTimberShear
             }
             Capacities.Add(capacity);
         }
-    }
+
+		public void ComputeStiffnesses()
+		{
+            Kser = Fastener.ComputeSlipModulus(Timber.RhoMean);
+			Kser *= 2; //for steel to timber connection, Kser may be multiplied by 2.0 (EN 1995-1-1 §7.1(2))
+			Kser *= 2;//For 2 shear plane
+
+			Ku = Kser * 2 / 3;
+		}
+	}
 }

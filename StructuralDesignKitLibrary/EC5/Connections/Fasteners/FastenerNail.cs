@@ -45,6 +45,8 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		public double Fax { get; set; }
 		public double ThreadLength { get; set; }
 		public double NailTensileCapacity { get; set; }
+		public double MinPenetrationLength { get; set; }
+		public double MinMemberThickness { get; set; }
 
 
 		#endregion
@@ -73,7 +75,7 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 			NailTensileCapacity = steelCapacity;
 
 			NailType = nailType;
-
+			MinPenetrationLength = 6 * diameter;
 
 			switch (NailType)
 			{
@@ -118,10 +120,26 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		/// <param name="angle">angle to grain in Degree</param>
 		/// <returns></returns>
 		[Description("Define the minimum spacing to alongside the grain in mm")]
-		private double DefineA1Min(double angle)
+		private double DefineA1Min(double angle, double density)
 		{
 			double AngleRad = angle * Math.PI / 180;
-			return (4 + Math.Abs(Math.Cos(AngleRad))) * Diameter;
+
+			if (Predrilled)
+			{
+				return (4 + Math.Abs(Math.Cos(AngleRad))) * Diameter;
+			}
+			else
+			{
+				if (density <= 420)
+				{
+
+					if (Diameter < 5) return (5 + 5 * Math.Abs(Math.Cos(AngleRad))) * Diameter;
+					else return (5 + 7 * Math.Abs(Math.Cos(AngleRad))) * Diameter;
+				}
+				else if (density <= 500) return (7 + 8 * Math.Abs(Math.Cos(AngleRad))) * Diameter;
+				else throw new Exception("With characteristic Density > 500kg/m³, nails must be predrilled");
+			}
+
 		}
 
 		/// <summary>
@@ -130,9 +148,24 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		/// <param name="angle">angle to grain in Degree</param>
 		/// <returns></returns>
 		[Description("Define the minimum spacing perpendicular to grain in mm")]
-		private double DefineA2Min(double angle)
+		private double DefineA2Min(double angle, double density)
 		{
-			return 4 * Diameter;
+			double AngleRad = angle * Math.PI / 180;
+
+			if (Predrilled)
+			{
+				return (3 + Math.Sin(AngleRad)) * Diameter;
+			}
+			else
+			{
+				if (density <= 420)
+				{
+
+					return 5 * Diameter;
+				}
+				else if (density <= 500) return 7 * Diameter;
+				else throw new Exception("With characteristic Density > 500kg/m³, nails must be predrilled");
+			}
 		}
 
 
@@ -142,9 +175,25 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		/// <param name="angle">angle to grain in Degree</param>
 		/// <returns></returns>
 		[Description("Define the Minimum spacing to loaded end in mm")]
-		private double DefineA3tMin(double angle)
+		private double DefineA3tMin(double angle, double density)
 		{
-			return Math.Max(7 * Diameter, 80);
+			double AngleRad = angle * Math.PI / 180;
+
+			if (Predrilled)
+			{
+				return (7 + 5 * Math.Abs(Math.Cos(AngleRad))) * Diameter;
+			}
+			else
+			{
+				if (density <= 420)
+				{
+
+					return (10 + 5 * Math.Abs(Math.Cos(AngleRad))) * Diameter;
+
+				}
+				else if (density <= 500) return (15 + 5 * Math.Abs(Math.Cos(AngleRad))) * Diameter;
+				else throw new Exception("With characteristic Density > 500kg/m³, nails must be predrilled");
+			}
 		}
 
 		/// <summary>
@@ -153,11 +202,22 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		/// <param name="angle">angle to grain in Degree</param>
 		/// <returns></returns>
 		[Description("Define the Minimum spacing to unloaded end in mm")]
-		private double DefineA3cMin(double angle)
+		private double DefineA3cMin(double angle, double density)
 		{
-			double AngleRad = angle * Math.PI / 180;
-			if (angle <= 150 && angle < 210) return 4 * Diameter;
-			else return (1 + 6 * Math.Sin(AngleRad)) * Diameter;
+			if (Predrilled)
+			{
+				return (7 * Diameter);
+			}
+			else
+			{
+				if (density <= 420)
+				{
+
+					return 10 * Diameter;
+				}
+				else if (density <= 500) return 15 * Diameter;
+				else throw new Exception("With characteristic Density > 500kg/m³, nails must be predrilled");
+			}
 		}
 
 		/// <summary>
@@ -166,10 +226,31 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		/// <param name="angle">angle to grain in Degree</param>
 		/// <returns></returns>
 		[Description("Define the Minimum spacing to loaded edge in mm")]
-		private double DefineA4tMin(double angle)
+		private double DefineA4tMin(double angle, double density)
 		{
 			double AngleRad = angle * Math.PI / 180;
-			return Math.Max((2 + 2 * Math.Sin(AngleRad)) * Diameter, 3 * Diameter);
+
+			if (Predrilled)
+			{
+				if (Diameter < 5) return (3 + 2 * Math.Abs(Math.Sin(AngleRad))) * Diameter;
+				else return (3 + 4 * Math.Abs(Math.Sin(AngleRad))) * Diameter;
+			}
+			else
+			{
+				if (density <= 420)
+				{
+
+					if (Diameter < 5) return (5 + 2 * Math.Abs(Math.Sin(AngleRad))) * Diameter;
+					else return (5 + 5 * Math.Abs(Math.Sin(AngleRad))) * Diameter;
+				}
+				else if (density <= 500)
+				{
+					if (Diameter < 5) return (7 + 2 * Math.Abs(Math.Sin(AngleRad))) * Diameter;
+					else return (7 + 5 * Math.Abs(Math.Sin(AngleRad))) * Diameter;
+				}
+				else throw new Exception("With characteristic Density > 500kg/m³, nails must be predrilled");
+			}
+
 
 		}
 
@@ -178,15 +259,64 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		/// </summary>
 		/// <returns></returns>
 		[Description("Define the minimum spacing to unloaded edge in mm")]
-		private double DefineA4cMin()
+		private double DefineA4cMin(double angle, double density)
 		{
-			return 3 * Diameter;
+			if (Predrilled)
+			{
+				return 3 * Diameter;
+
+			}
+			else
+			{
+				if (density <= 420)
+				{
+
+					return 5 * Diameter;
+
+				}
+				else if (density <= 500)
+				{
+					return 7 * Diameter;
+				}
+				else throw new Exception("With characteristic Density > 500kg/m³, nails must be predrilled");
+			}
 		}
 
 		#endregion
 
 
 		#region Define minimum penetration length
+
+		public void ComputeMinimumMinMemberThickness(double rhoK, bool SpecieSensitiveToSplitting)
+		{
+			List<double> memberThickness = new List<double>();
+
+
+			if (!SpecieSensitiveToSplitting)
+			{
+				if (!Predrilled)
+				{
+					memberThickness.Add(7 * Diameter); //EN 1995-1-1 §8.3.1.2 (6)
+					memberThickness.Add((13 * Diameter - 30) * (rhoK / 400));
+				}
+				else memberThickness.Add(6 * Diameter); //EN 1995-1-1 §8.3.1.2 (2)
+			}
+			else
+			{
+				if (!Predrilled)
+				{
+					memberThickness.Add(14 * Diameter); //EN 1995-1-1 §8.3.1.2 (7)
+					memberThickness.Add((13 * Diameter - 30) * (rhoK / 200));
+				}
+				else memberThickness.Add(6 * Diameter); //EN 1995-1-1 §8.3.1.2 (2)
+			}
+
+
+			MinMemberThickness = memberThickness.Max();
+
+		}
+
+
 
 		#endregion
 
@@ -225,7 +355,17 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 				}
 				else if (timber.Type == TimberType.OSB)
 				{
-					Fhk = 65 * Math.Pow(Diameter, -0.7) * Math.Pow(thickness, 0.1);
+					if (Predrilled)
+					{
+						//DIN EN 1995-1-1 (NA.17) eq (NA.127)
+						Fhk = 50 * Math.Pow(Diameter, -0.6) * Math.Pow(thickness, 0.2);
+					}
+					else
+					{
+						//EN 1995-1-1 §8.3.1.3 (3) Eq 8.22
+
+						Fhk = 65 * Math.Pow(Diameter, -0.7) * Math.Pow(thickness, 0.1);
+					}
 				}
 
 
@@ -248,22 +388,35 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 			if (NailTensileCapacity == 0) WithdrawalCapacity.Add(ComputeNailSteelTensileStrength());
 			else WithdrawalCapacity.Add(NailTensileCapacity);
 
-		
 
-		
+
+
 			double faxRk2 = FHeadK * Math.Pow(DiamHead, 2);
 
 			double tPen;
 
 
-	
+
 			if (ConnectionType is TimberTimberSingleShear)
 			{
 				TimberTimberSingleShear connection = ConnectionType as TimberTimberSingleShear;
 				if (connection.T2 > ThreadLength) tPen = ThreadLength;
 				else tPen = connection.T2;
-				WithdrawalCapacity.Add(Fax * Diameter * tPen);
-				WithdrawalCapacity.Add(faxRk2);
+
+				if (tPen < 6 * Diameter) throw new Exception("The penetration length should be at least 6d");
+
+				if (tPen < 8 * Diameter) WithdrawalCapacity.Add(0);
+				else if (tPen >= 8 * Diameter && tPen < 12 * Diameter)
+				{
+					WithdrawalCapacity.Add(Fax * Diameter * tPen * (tPen / (2 * Diameter) - 3));
+					WithdrawalCapacity.Add(faxRk2);
+				}
+				else
+				{
+					WithdrawalCapacity.Add(Fax * Diameter * tPen);
+					WithdrawalCapacity.Add(faxRk2);
+				}
+
 			}
 
 			else if (ConnectionType is TimberTimberDoubleShear)
@@ -271,16 +424,40 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 				TimberTimberDoubleShear connection = ConnectionType as TimberTimberDoubleShear;
 				if (connection.T1 > ThreadLength) tPen = ThreadLength;
 				else tPen = connection.T1;
-				WithdrawalCapacity.Add(Fax * Diameter * tPen);
-				WithdrawalCapacity.Add(faxRk2);
+				if (tPen < 6 * Diameter) throw new Exception("The penetration length should be at least 6d");
+
+				if (tPen < 8 * Diameter) WithdrawalCapacity.Add(0);
+				else if (tPen >= 8 * Diameter && tPen < 12 * Diameter)
+				{
+					WithdrawalCapacity.Add(Fax * Diameter * tPen * (tPen / (2 * Diameter) - 3));
+					WithdrawalCapacity.Add(faxRk2);
+				}
+				else
+				{
+					WithdrawalCapacity.Add(Fax * Diameter * tPen);
+					WithdrawalCapacity.Add(faxRk2);
+				}
+
 			}
+		
 
 			else if (ConnectionType is SingleOuterSteelPlate)
 			{
 				SingleOuterSteelPlate connection = ConnectionType as SingleOuterSteelPlate;
 				if (connection.TimberThickness > ThreadLength) tPen = ThreadLength;
 				else tPen = connection.TimberThickness;
-				WithdrawalCapacity.Add(Fax * Diameter * tPen);
+
+				if (tPen < 6 * Diameter) throw new Exception("The penetration length should be at least 6d");
+
+				if (tPen < 8 * Diameter) WithdrawalCapacity.Add(0);
+				else if (tPen >= 8 * Diameter && tPen < 12 * Diameter)
+				{
+					WithdrawalCapacity.Add(Fax * Diameter * tPen * (tPen / (2 * Diameter) - 3));
+				}
+				else
+				{
+					WithdrawalCapacity.Add(Fax * Diameter * tPen);
+				}
 			}
 
 			else throw new Exception("Bolt Withdrawal capacity not yet implemented");
@@ -288,7 +465,6 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 			FaxRk = WithdrawalCapacity.Min();
 
 		}
-
 
 		/// <summary>
 		/// Compute the tensile strength of the nail
@@ -301,30 +477,133 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 			return 0.9 * aeff * Fuk / 1.25; //consider k2 = 0.9 and Ym2 = 1.25
 		}
 
-
 		public double ComputeEffectiveNumberOfFastener(int n, double a1, double angle)
 		{
 			if (n == 1) return 1;
 			else
 			{
-				double nef_0 = Math.Min(n, Math.Pow(n, 0.9) * Math.Pow(a1 / (13 * Diameter), 0.25));
+
+				double kef = 0;
+				if (a1 < 4 * Diameter) throw new Exception("for nails, minimum a1 distance is 4d for predrilled holes and 7d otherwise");
+				else if (a1 >= 4 * Diameter && a1 < 7 * Diameter)
+				{
+					if (Predrilled)
+					{
+						double xd = a1 / Diameter;
+						kef = SDKUtilities.LinearInterpolation(xd, 4, 0.5, 7, 0.7);
+					}
+					else throw new Exception("for nails, minimum a1 distance is 4d for predrilled holes and 7d otherwise");
+				}
+				else if (a1 >= 7 * Diameter && a1 < 10 * Diameter)
+				{
+					double xd = a1 / Diameter;
+
+					kef = SDKUtilities.LinearInterpolation(xd, 7, 0.7, 10, 0.85);
+				}
+				else if (a1 >= 10 * Diameter && a1 < 14 * Diameter)
+				{
+					double xd = a1 / Diameter;
+
+					kef = SDKUtilities.LinearInterpolation(xd, 10, 0.85, 14, 1);
+				}
+				else kef = 1;
+
+				double nef_0 = Math.Pow(n, kef);
 
 				int angleFirstQuadrant = SDKUtilities.ComputeAngleToFirstQuadrant(angle);
-
 				return SDKUtilities.LinearInterpolation(Convert.ToDouble(angleFirstQuadrant), 0, nef_0, 90, n);
 			}
 		}
 
-		public void ComputeSpacings(double angle)
+		public void ComputeSpacings(double angle, IShearCapacity connection = null)
 		{
-			a1min = DefineA1Min(angle);
-			a2min = DefineA2Min(angle);
-			a3tmin = DefineA3tMin(angle);
-			a3cmin = DefineA3cMin(angle);
-			a4tmin = DefineA4tMin(angle);
-			a4cmin = DefineA4cMin();
+
+			double density = 0;
+
+			if (connection is null) throw new Exception("To compute the spacings for nails, the connection type must be provided");
+			else
+			{
+				if (connection is TimberTimberDoubleShear || connection is TimberTimberSingleShear)
+				{
+					var CastConnection = connection as ITimberTimberShear;
+
+
+					//if the timber density comes from an OSB panel, it is not considered.
+					double density1 = CastConnection.Timber1.RhoK;
+					if (CastConnection.Timber1.Type == TimberType.OSB) density1 = 0;
+
+					double density2 = CastConnection.Timber2.RhoK;
+					if (CastConnection.Timber2.Type == TimberType.OSB) density2 = 0;
+
+					density = Math.Max(density1, density2);
+				}
+				else if (connection is SingleOuterSteelPlate)
+				{
+					var CastConnection = connection as ISteelTimberShear;
+					if (CastConnection.Timber.Type == TimberType.OSB) throw new Exception("Spacing for steel to OSB needs to be discussed - NOT IMPLEMENTED YET");
+
+					density = CastConnection.Timber.RhoK;
+				}
+				else throw new Exception("The connection type is not yet implemented in the FastenerNail object");
+
+			}
+
+
+
+			a1min = DefineA1Min(angle, density);
+			a2min = DefineA2Min(angle, density);
+			a3tmin = DefineA3tMin(angle, density);
+			a3cmin = DefineA3cMin(angle, density);
+			a4tmin = DefineA4tMin(angle, density);
+			a4cmin = DefineA4cMin(angle, density);
+
+
+
+			if (connection is SingleOuterSteelPlate)
+			{
+				//According to EN 1995-1-1 §8.3.1.4 (1), spacing multiplied by 0.7
+				a1min *= 0.7;
+				a2min *= 0.7;
+				a3tmin *= 0.7;
+				a3cmin *= 0.7;
+				a4tmin *= 0.7;
+				a4cmin *= 0.7;
+			}
+
+
+			if (connection is TimberTimberDoubleShear || connection is TimberTimberSingleShear)
+			{
+				var CastConnection = connection as ITimberTimberShear;
+				if (CastConnection.Timber1.Type == TimberType.OSB || CastConnection.Timber2.Type == TimberType.OSB)
+				{
+					//According to DIN EN 1995-1-1 (NA.13) -> for OSB plates, the edge distances can be reduced to 7d for loaded edge and 3d for unloaded edge
+					//Nail spacing can be factored with 0.85 according to EN 1995-1-1 §8.3.1.3 (1)
+
+					a1min *= 0.85;
+					a2min *= 0.85;
+					a3tmin = 7 * Diameter;
+					a3cmin = 3 * Diameter;
+					a4tmin = 7 * Diameter;
+					a4cmin = 3 * Diameter;
+				}
+			}
+
+
+
+
 		}
 
+		public double ComputeSlipModulus(double timberDensity)
+		{
+			if (this.Predrilled)
+			{
+				return Math.Pow(timberDensity, 1.5) * this.Diameter / 23;
+			}
+			else
+			{
+				return Math.Pow(timberDensity, 1.5) * Math.Pow(this.Diameter, 0.8) / 30;
+			}
+		}
 
 		public enum NailTypes
 		{

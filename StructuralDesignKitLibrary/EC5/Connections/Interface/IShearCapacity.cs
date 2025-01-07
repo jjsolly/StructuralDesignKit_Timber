@@ -8,50 +8,66 @@ using System.Threading.Tasks;
 
 namespace StructuralDesignKitLibrary.EC5.Connections.Interface
 {
-    public interface IShearCapacity
-    {
-        /// <summary>
-        /// Fastener used in the shear plane considered
-        /// </summary>
-        [Description("Fastener used in the shear plane considered")]
-        IFastener Fastener { get; set; }
+	public interface IShearCapacity
+	{
+		/// <summary>
+		/// Fastener used in the shear plane considered
+		/// </summary>
+		[Description("Fastener used in the shear plane considered")]
+		IFastener Fastener { get; set; }
 
-        /// <summary>
-        /// List of the failure mechanisms 
-        /// </summary>
-        [Description("List of the failure mechanisms")]
-        List<string> FailureModes { get; set; }
-
-
-        /// <summary>
-        /// List of the failure mechanism capacities
-        /// </summary>
-        [Description("List of the failure mechanism capacities")]
-        List<double> Capacities { get; set; }
-
-        /// <summary>
-        /// Driving failure mode
-        /// </summary>
-        [Description("Driving failure mode")]
-        string FailureMode { get; set; }
-
-        /// <summary>
-        /// Capacity of the fastener. This value is the minimum of the failure modes multiplied by the number of shear plane considered for the failure mode
-        /// </summary>
-        [Description("Capacity of the fastener. This value is the minimum of the failure modes multiplied by the number of shear plane considered for the failure mode")]
-        double Capacity { get; set; }
-
-        /// <summary>
-        /// Computes all the relevant failure modes
-        /// </summary>
-        [Description("Computes all the relevant failure modes")]
-        void ComputeFailingModes();
+		/// <summary>
+		/// List of the failure mechanisms 
+		/// </summary>
+		[Description("List of the failure mechanisms")]
+		List<string> FailureModes { get; set; }
 
 
-        /// <summary>
-        /// Boolean value which defines if the rope effect should be considered
-        /// </summary>
-        [Description("Boolean value which defines if the rope effect should be considered")]
-        bool RopeEffect { get; set; }
-    }
+		/// <summary>
+		/// List of the failure mechanism capacities
+		/// </summary>
+		[Description("List of the failure mechanism capacities")]
+		List<double> Capacities { get; set; }
+
+		/// <summary>
+		/// Driving failure mode
+		/// </summary>
+		[Description("Driving failure mode")]
+		string FailureMode { get; set; }
+
+		/// <summary>
+		/// Capacity of the fastener. This value is the minimum of the failure modes multiplied by the number of shear plane considered for the failure mode
+		/// </summary>
+		[Description("Capacity of the fastener. This value is the minimum of the failure modes multiplied by the number of shear plane considered for the failure mode")]
+		double Capacity { get; set; }
+
+		/// <summary>
+		/// Computes all the relevant failure modes
+		/// </summary>
+		[Description("Computes all the relevant failure modes")]
+		void ComputeFailingModes();
+
+
+		/// <summary>
+		/// Boolean value which defines if the rope effect should be considered
+		/// </summary>
+		[Description("Boolean value which defines if the rope effect should be considered")]
+		bool RopeEffect { get; set; }
+
+
+		/// <summary>
+		/// Slip modulus according to EN 1995-1-4 §7.1 for SLS
+		/// </summary>
+		double Kser { get; set; }
+
+		/// <summary>
+		/// Slip modulus according to EN 1995-1-4 §7.1 for ULS
+		/// </summary>
+		double Ku { get; set; }
+
+		/// <summary>
+		/// Compute the slip modulus of the fastener
+		/// </summary>
+		void ComputeStiffnesses();
+	}
 }
