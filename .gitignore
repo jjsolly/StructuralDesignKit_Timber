@@ -366,3 +366,6 @@ FodyWeavers.xsd
 #Ignore StructuralDesignKitConsole
 StructuralDesignKitConsole/
 SDK_Local_Development/
+DEbugNetCore/
+DEbugNetCore/
+StructuralDesignKitGH
