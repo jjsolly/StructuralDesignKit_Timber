@@ -53,6 +53,21 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 
 
 		#region constructor
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="nailType"></param>
+		/// <param name="diameter"></param>
+		/// <param name="length"></param>
+		/// <param name="fuk"></param>
+		/// <param name="predrilled"></param>
+		/// <param name="myrk"></param>
+		/// <param name="dHead"></param>
+		/// <param name="fax"></param>
+		/// <param name="fHead"></param>
+		/// <param name="threadLength"></param>
+		/// <param name="steelCapacity"></param>
+		/// <exception cref="Exception"></exception>
 		public FastenerNail(NailTypes nailType, double diameter, int length, double fuk, bool predrilled, double myrk = 0, double dHead = 0, double fax = 0, double fHead = 0, double threadLength = 0, double steelCapacity = 0)
 		{
 			Type = EC5_Utilities.FastenerType.Nail;

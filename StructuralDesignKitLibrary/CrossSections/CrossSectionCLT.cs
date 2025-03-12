@@ -20,14 +20,17 @@ namespace StructuralDesignKitLibrary.CrossSections
     /// 
     /// the cross section can be equivalent to its parent layup or it can be a part of it
     /// 
-    /// A layup two cross sections 
+    /// A layup has two cross sections (in X and Y)
+    /// 
     /// The different notations and approaches are taken from 
     /// - "2018 Wallner-Novak M., CLT structural design I proHOLZ -  ISBN 978-3-902926-03-6"
     /// - "2018 Wallner-Novak M., CLT structural design II proHOLZ -  ISBN 978-3-902320-96-4"
     /// </summary>
     public class CrossSectionCLT
     {
-        public int ID { get; set; }
+
+		#region properties
+		public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Thickness { get; set; }
@@ -143,16 +146,18 @@ namespace StructuralDesignKitLibrary.CrossSections
 
 
 
+		#endregion
 
 
-        //------------------------------------------------------------------------------------
-        //Define EIx EIy, GAx, GAy, ExEquivalent, EyEquivalent to be defined as orthotropic material in Karamba for instance 
-        //with the constant stiffness representing the overall thickness of the CLT plate
-        //------------------------------------------------------------------------------------
+        //TO DO
+		//------------------------------------------------------------------------------------
+		//Define EIx EIy, GAx, GAy, ExEquivalent, EyEquivalent to be defined as orthotropic material in Karamba for instance 
+		//with the constant stiffness representing the overall thickness of the CLT plate
+		//------------------------------------------------------------------------------------
 
 
 
-        public CrossSectionCLT(List<double> thicknesses, List<int> orientations, List<MaterialCLT> materials, int lamellaWidth = 150, bool narrowSideGlued = false)
+		public CrossSectionCLT(List<double> thicknesses, List<int> orientations, List<MaterialCLT> materials, int lamellaWidth = 150, bool narrowSideGlued = false)
         {
             LamellaThicknesses = thicknesses;
             LamellaOrientations = orientations;
@@ -168,7 +173,9 @@ namespace StructuralDesignKitLibrary.CrossSections
 
         //Implement a picture in Excel / GH equivalent to KLH documentation
 
-
+        /// <summary>
+        /// Compute the cross section properties
+        /// </summary>
         public void ComputeCrossSectionProperties()
         {
             //Define the top lamella as the reference material
@@ -181,6 +188,11 @@ namespace StructuralDesignKitLibrary.CrossSections
         }
 
 
+        /// <summary>
+        /// Compute the CLT center of gravity, distance from the top surface
+        /// </summary>
+        /// <param name="CS"></param>
+        /// <returns></returns>
         private double ComputeCLTCenterOfGravity(CrossSectionCLT CS)
         {
             double distToCOG = 0;
@@ -221,6 +233,7 @@ namespace StructuralDesignKitLibrary.CrossSections
             return CS.CenterOfGravity;
         }
 
+
         /// <summary>
         /// Compute the net area in both directions
         /// </summary>
@@ -236,6 +249,9 @@ namespace StructuralDesignKitLibrary.CrossSections
         }
 
 
+        /// <summary>
+        /// Compute the cross section inertia
+        /// </summary>
         private void ComputeInertia()
         {
             for (int i = 0; i < NbOfLayers; i++)
@@ -247,7 +263,6 @@ namespace StructuralDesignKitLibrary.CrossSections
                 }
             }
         }
-
 
 
         //Compute the different static moments (first moment of area) as follow
@@ -335,9 +350,6 @@ namespace StructuralDesignKitLibrary.CrossSections
                 i++;
             }
 
-
-
-
             //from the first cross layer onward
             for (int j = i; j < nbLamella; j++)
             {
@@ -389,15 +401,18 @@ namespace StructuralDesignKitLibrary.CrossSections
         }
 
 
-
-
-
+        /// <summary>
+        /// Compute the radius of inertia
+        /// </summary>
         private void ComputeRadiusOfInertia()
         {
             RadiusOfInertia = Math.Sqrt(EffectiveMomentOfInertia / Area);
         }
 
 
+        /// <summary>
+        /// Compute the effective AE value
+        /// </summary>
         private void ComputeAEeff()
         {
             for (int i = 0; i < LamellaOrientations.Count; i++)
@@ -410,6 +425,10 @@ namespace StructuralDesignKitLibrary.CrossSections
         }
 
 
+        /// <summary>
+        /// Compute the normal stress in N/mm² per layer based on a global normal force in N
+        /// </summary>
+        /// <param name="NormalForce"></param>
         public void ComputeNormalStress(double NormalForce)
         {
             SigmaNTens = new List<double>();
@@ -438,17 +457,31 @@ namespace StructuralDesignKitLibrary.CrossSections
         }
 
 
+        /// <summary>
+        /// Compute the shear stresses (in N/mm²) per layer based on a shear force (in N)
+        /// </summary>
+        /// <param name="ShearForceZ"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void ComputeShearStress(double ShearForceZ)
         {
+            TauV = new List<List<double>>();
+			for (int i = 0; i < S0Net.Count; i++)
+			{
+                TauV.Add(new List<double>());
+				for (int j = 0; j < S0Net[i].Count; j++)
+				{
+					TauV[i].Add(ShearForceZ * S0Net[i][j] / (MomentOfInertia * 1000));
+				}
+			}
+
+		}
 
 
-
-
-
-        }
-
-
-        public void ComputeBendingStress(double BendingMomentY)
+		/// <summary>
+		/// Compute the bending stress in N/mm² per layer based on a global bending moment force in kN.m
+		/// </summary>
+		/// <param name="BendingMomentY"></param>
+		public void ComputeBendingStress(double BendingMomentY)
         {
             var Wnet = ComputeWnetPerLayers();
 
@@ -476,6 +509,7 @@ namespace StructuralDesignKitLibrary.CrossSections
             throw new NotImplementedException();
         }
 
+
         /// <summary>
         /// Provide the characteristic compression capacity in kN/m 
         /// </summary>
@@ -495,6 +529,7 @@ namespace StructuralDesignKitLibrary.CrossSections
             NCompressionChar = MaxForce.Min();
         }
 
+
         /// <summary>
         /// Provide the characteristic tension capacity in kN/m 
         /// </summary>
@@ -513,6 +548,7 @@ namespace StructuralDesignKitLibrary.CrossSections
             NTensionChar = MaxForce.Min();
 
         }
+
 
         /// <summary>
         /// Provide the characteristic bending capacity in kN.m/m 
@@ -540,6 +576,7 @@ namespace StructuralDesignKitLibrary.CrossSections
 
             MChar = MaxBending.Min() / 1000000;
         }
+
 
         private List<List<double>> ComputeWnetPerLayers()
         {
@@ -631,7 +668,7 @@ namespace StructuralDesignKitLibrary.CrossSections
 
 
         /// <summary>
-        /// helping method used to define the center of gravity of multiple layers oriented in the same direction with eventually, different modulus of elasticity
+        /// helper method used to define the center of gravity of multiple layers oriented in the same direction with eventually, different modulus of elasticity
         /// </summary>
         /// <param name="layerThickness">Layer thickness</param>
         /// <param name="E">Laayer modulus of elasticity</param>
@@ -666,11 +703,6 @@ namespace StructuralDesignKitLibrary.CrossSections
 
             return CoG;
         }
-
-
-
-
-
 
 
     }

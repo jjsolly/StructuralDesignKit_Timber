@@ -784,9 +784,72 @@ namespace StructuralDesignKitLibrary.EC5
 		#endregion
 
 
+		#region Kv
+
+		/// <summary>
+		/// Reduction factor for notched beam support according to DIN EN 1995-1  §6.5.2 (2)
+		/// </summary>
+		/// <param name="material">Material object</param>
+		/// <param name="h">Bean depth</param>
+		/// <param name="heff">residual Bean depth</param>
+		/// <param name="x">Distance from the line of action of the support reaction to the corner of the notch</param>
+		/// <param name="l">length of the notch in the grain direction "i x (h-heff)"</param>
+		/// <returns></returns>
+		/// <exception cref="Exception"></exception>
+		public static double Kv(IMaterial material, double h, double heff, double x, double l)
+		{
+			double kv = 0;
+			double kn = 0;
+
+			IMaterialTimber timber;
+			if (material is IMaterialTimber)
+			{
+				timber = (IMaterialTimber)material;
+				switch (timber.Type)
+				{
+					case EC5_Utilities.TimberType.Softwood:
+						kn = 5;
+						break;
+
+					case EC5_Utilities.TimberType.Hardwood:
+						kn = 5;
+						break;
+
+					case EC5_Utilities.TimberType.Glulam:
+						kn = 6.5;
+						break;
+
+					case EC5_Utilities.TimberType.LVL:
+						kn = 4.5;
+						break;
+
+					case EC5_Utilities.TimberType.Baubuche:
+						kn = 6.5;
+						break;
+
+					case EC5_Utilities.TimberType.OSB:
+						throw new Exception("Factor Kv not defined for OSB");
+
+				}
 
 
+				double i = l / (h - heff);
+				double alpha = heff / h;
+
+				double kv_top = kn * (1 + (1.1 * Math.Pow(i, 1.5)) / Math.Sqrt(h));
+				double kv_bottom = Math.Sqrt(h) * (Math.Sqrt(alpha * (1 - alpha)) + 0.8 * x / h * Math.Sqrt(1 / alpha - Math.Pow(alpha, 2)));
+				kv = Math.Min(1, kv_top/kv_bottom);
+
+			}
+
+			else throw new Exception("Material is not defined as timber");
+
+			return kv;
+		}
+			#endregion
+
+
+		}
 	}
-}
 
 

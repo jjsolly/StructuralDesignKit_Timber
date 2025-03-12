@@ -473,6 +473,5 @@ namespace StructuralDesignKitLibrary.EC5
         }
 
 
-
     }
 }
