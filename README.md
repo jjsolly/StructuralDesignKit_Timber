@@ -1,6 +1,6 @@
 # SDK_T - Structural Design Kit TIMBER
 SDK_T aims at simplifying the daily work of structural engineers working on timber projects. At its core, the SDK_T is a C# library which implements the logic and technical rules from the Eurocodes 5 (DIN EN 1995) and some related utilities. This core can be accessed in any application running on the Microsoft .NET platform. In addition to the core library, the project currently exposes the SDK_T Core into MS Excel and Grasshopper for Rhino.
-This project was originally supported by knippershelbig GmbH and is now maintained by ITERATIONS EURL
+This project was originally supported by knippershelbig GmbH and is now maintained by ITERATIONS
 
 <b>Excel</b>
 
