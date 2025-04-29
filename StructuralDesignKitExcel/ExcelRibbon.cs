@@ -53,8 +53,10 @@ namespace StructuralDesignKitExcel
                     writer.WriteAttributeString("id", "button_" + method.Name);
                     writer.WriteAttributeString("label", method.Name);
                     writer.WriteAttributeString("onAction", "OnConnectionButton");
-                    writer.WriteAttributeString("tag", method.CustomAttributes.ToList()[0].NamedArguments[2].TypedValue.Value.ToString());
-                    writer.WriteAttributeString("screentip", method.CustomAttributes.ToList()[0].NamedArguments[1].TypedValue.Value.ToString());
+                    string tag = ExcelHelpers.GetTag(method);
+					writer.WriteAttributeString("tag",tag);
+					string description = ExcelHelpers.GetDescription(method);
+					writer.WriteAttributeString("screentip", description);
                     writer.WriteEndElement();
                 }
 
@@ -131,8 +133,12 @@ namespace StructuralDesignKitExcel
                     writer.WriteAttributeString("id", "button_" + method.Name);
                     writer.WriteAttributeString("label", method.Name);
                     writer.WriteAttributeString("onAction", "OnButton");
-                    writer.WriteAttributeString("tag", method.CustomAttributes.ToList()[0].NamedArguments[0].TypedValue.Value.ToString());
-                    writer.WriteAttributeString("screentip", method.CustomAttributes.ToList()[0].NamedArguments[1].TypedValue.Value.ToString());
+					string tag = ExcelHelpers.GetTag(method);
+
+					writer.WriteAttributeString("tag", tag);
+					string description = ExcelHelpers.GetTag(method);
+
+					writer.WriteAttributeString("screentip",description);
                     writer.WriteEndElement();
                 }
 
@@ -884,8 +890,31 @@ namespace StructuralDesignKitExcel
                 }
             }
 
-            return methodsWithArgument.Where(p => p.CustomAttributes.ToList()[0].NamedArguments[2].TypedValue.Value.ToString() == category).ToList();
-        }
+            List<System.Reflection.MethodInfo> methodToReturns = new List<System.Reflection.MethodInfo>();
+            foreach (var method in methodsWithArgument)
+            {
+                var namedArguments = method.CustomAttributes.ToList()[0].NamedArguments.Where(p => p.MemberName == "Category").ToList();
+                if (namedArguments.Count>0)
+                {
+                    var namedArgument = namedArguments[0];
+                    foreach(var argument in method.CustomAttributes.ToList()[0].NamedArguments.ToList())
+                    {
+                        if(argument.MemberName == "Category")
+                        {
+                            if(argument.TypedValue.Value.ToString() == category)
+	
+                            {
+								methodToReturns.Add(method);
+							}
+						}
+                    }
+				}
+            }
+            //var val = methodsWithArgument[0].CustomAttributes.ToList()[0].NamedArguments[0].MemberName;
+            //var methodToReturns = methodsWithArgument.Where(p => p.CustomAttributes.ToList()[0].NamedArguments[3].TypedValue.Value.ToString() == category).ToList();
+            return methodToReturns;
+
+		}
 
 
         public void OnButtonVersion(IRibbonControl control)

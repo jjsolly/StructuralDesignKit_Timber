@@ -90,7 +90,7 @@ namespace StructuralDesignKitExcel
             IFastener fastener = null;
             if (ExcelHelpers.IsFastener(fastenerType)) fastener = ExcelHelpers.GetFastener(fastenerType, diameter, 800);
 
-            fastener.ComputeSpacings(angle);
+            fastener.ComputeSpacings(angle, null);
             return fastener.a1min;
         }
 
@@ -105,7 +105,7 @@ namespace StructuralDesignKitExcel
         {
             IFastener fastener = null;
             if (ExcelHelpers.IsFastener(fastenerType)) fastener = ExcelHelpers.GetFastener(fastenerType, diameter, 800);
-            fastener.ComputeSpacings(angle);
+            fastener.ComputeSpacings(angle, null);
             return fastener.a2min;
         }
 
@@ -120,7 +120,7 @@ namespace StructuralDesignKitExcel
         {
             IFastener fastener = null;
             if (ExcelHelpers.IsFastener(fastenerType)) fastener = ExcelHelpers.GetFastener(fastenerType, diameter, 800);
-            fastener.ComputeSpacings(angle);
+            fastener.ComputeSpacings(angle, null);
             return fastener.a3tmin;
         }
 
@@ -135,7 +135,7 @@ namespace StructuralDesignKitExcel
         {
             IFastener fastener = null;
             if (ExcelHelpers.IsFastener(fastenerType)) fastener = ExcelHelpers.GetFastener(fastenerType, diameter, 800);
-            fastener.ComputeSpacings(angle);
+            fastener.ComputeSpacings(angle, null);
             return fastener.a3cmin;
         }
 
@@ -150,7 +150,7 @@ namespace StructuralDesignKitExcel
         {
             IFastener fastener = null;
             if (ExcelHelpers.IsFastener(fastenerType)) fastener = ExcelHelpers.GetFastener(fastenerType, diameter, 800);
-            fastener.ComputeSpacings(angle);
+            fastener.ComputeSpacings(angle,null);
             return fastener.a4tmin;
         }
 
@@ -165,7 +165,7 @@ namespace StructuralDesignKitExcel
         {
             IFastener fastener = null;
             if (ExcelHelpers.IsFastener(fastenerType)) fastener = ExcelHelpers.GetFastener(fastenerType, diameter, 800);
-            fastener.ComputeSpacings(angle);
+            fastener.ComputeSpacings(angle, null);
             return fastener.a4cmin;
         }
 

@@ -376,7 +376,7 @@ namespace StructuralDesignKitExcel.RibbonActions
             activeCell = activeCell.Offset[1, 0]; activeCell.Value2 = "Fastener";
             activeCell = activeCell.Offset[1, 0]; activeCell.Value2 = "Force angle to the grain";
             activeCell = activeCell.Offset[1, 0]; activeCell.Value2 = "Number of columns parallel to grain";
-            activeCell = activeCell.Offset[1, 0]; activeCell.Value2 = "number of rows per column";
+            activeCell = activeCell.Offset[1, 0]; activeCell.Value2 = "Number of rows per column";
             activeCell = activeCell.Offset[1, 0]; activeCell.Value2 = "a1 | Distance between columns";
             activeCell = activeCell.Offset[1, 0]; activeCell.Value2 = "Neff";
 
@@ -388,7 +388,7 @@ namespace StructuralDesignKitExcel.RibbonActions
             Range NbRowRange = NbColumnRange.Offset[1, 0]; NbRowRange.Value2 = 2;
             Range a1Range = NbRowRange.Offset[1, 0]; a1Range.Value2 = 120;
             Range NeffRange = a1Range.Offset[1, 0]; NeffRange.Formula = string.Format("=(SDK.EC5.Connections.Neff({0},{1},{2},{3}))*{4}",
-                fastenerTagRange.Address[false, false], NbColumnRange.Address[false, false], a1Range.Address[false, false], AngleRange.Address[false, false], NbRowRange.Address[false, false]);
+                fastenerTagRange.Address[false, false], NbRowRange.Address[false, false], a1Range.Address[false, false], AngleRange.Address[false, false], NbColumnRange.Address[false, false]);
 
 
             //Units

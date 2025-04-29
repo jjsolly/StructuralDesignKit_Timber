@@ -173,6 +173,10 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 					double fh0k = 0.082 * (1 - 0.01 * Diameter) * timber.RhoK; //EN 1995-1-1 Eq (8.32)
 					K90 = ComputeK90(timber);
 					Fhk = fh0k / (K90 * Math.Pow(Math.Sin(AngleRad), 2) + Math.Pow(Math.Cos(AngleRad), 2)); //EN 1995-1-1 Eq (8.32)
+
+					//According to ETA 14/0354 (Baubuche), dowel type fasteners with a diameter d>=8mm the embedment strength shall be reduced by factor 0.8 for use in edge face
+					//Conservatively, this value is applied in all conditions until a function is developped to differentiate these cases
+					if (timber.Type == TimberType.Baubuche && this.Diameter >= 8) Fhk *= 0.8;
 				}
 				else if (timber.Type == TimberType.OSB)
 				{

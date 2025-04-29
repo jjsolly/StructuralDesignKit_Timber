@@ -135,6 +135,7 @@ namespace StructuralDesignKitLibrary.Materials
         public enum Grades
         {
             C16,
+            C18,
             C24,
             C30,
             C35,
@@ -146,7 +147,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 16},
-            {"C24", 24},
+            {"C18", 18},
+			{"C24", 24},
             {"C30", 30},
             {"C35", 35},
             {"C40", 40}
@@ -158,7 +160,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 16},
-            {"C24", 24},
+            {"C18", 18},
+			{"C24", 24},
             {"C30", 30},
             {"C35", 35},
             {"C40", 40}
@@ -169,7 +172,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 8.5},
-            {"C24", 14.5},
+            {"C18", 10},
+			{"C24", 14.5},
             {"C30", 19},
             {"C35", 22.5},
             {"C40", 26},
@@ -179,7 +183,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 0.4},
-            {"C24", 0.4},
+			{"C18", 0.4},
+			{"C24", 0.4},
             {"C30", 0.4},
             {"C35", 0.4},
             {"C40", 0.4},
@@ -190,7 +195,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
            //Softwood
             {"C16", 17},
-            {"C24", 21},
+			{"C18", 18},
+			{"C24", 21},
             {"C30", 24},
             {"C35", 25},
             {"C40", 27},
@@ -201,7 +207,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 2.2},
-            {"C24", 2.5},
+			{"C18", 2.2},
+			{"C24", 2.5},
             {"C30", 2.7},
             {"C35", 2.7},
             {"C40", 2.8},
@@ -213,7 +220,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 3.2},
-            {"C24", 4},
+			{"C18", 3.4},
+			{"C24", 4},
             {"C30", 4},
             {"C35", 4},
             {"C40", 4},
@@ -225,7 +233,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 0},
-            {"C24", 0},
+            {"C18", 0},
+			{"C24", 0},
             {"C30", 0},
             {"C35", 0},
             {"C40", 0},
@@ -237,7 +246,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 8000},
-            {"C24", 11000},
+            {"C18", 9000},
+			{"C24", 11000},
             {"C30", 12000},
             {"C35", 13000},
             {"C40", 14000},
@@ -249,7 +259,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 270},
-            {"C24", 370},
+            {"C18", 300},
+			{"C24", 370},
             {"C30", 400},
             {"C35", 430},
             {"C40", 470},
@@ -261,7 +272,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 500},
-            {"C24", 690},
+            {"C18", 560},
+			{"C24", 690},
             {"C30", 750},
             {"C35", 810},
             {"C40", 880},
@@ -272,7 +284,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 5400},
-            {"C24", 7400},
+            {"C18", 6000},
+			{"C24", 7400},
             {"C30", 8000},
             {"C35", 8700},
             {"C40", 9400},
@@ -285,7 +298,8 @@ namespace StructuralDesignKitLibrary.Materials
 
             //Softwood
             {"C16", 500 * 2/3},
-            {"C24", 690 * 2/3},
+            {"C18", 560 * 2/3},
+			{"C24", 690 * 2/3},
             {"C30", 750 * 2/3},
             {"C35", 810 * 2/3},
             {"C40", 880 * 2/3},
@@ -296,7 +310,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 370},
-            {"C24", 420},
+            {"C18", 380},
+			{"C24", 420},
             {"C30", 460},
             {"C35", 470},
             {"C40", 480},
@@ -308,7 +323,8 @@ namespace StructuralDesignKitLibrary.Materials
         {
             //Softwood
             {"C16", 310},
-            {"C24", 350},
+            {"C18", 320},
+			{"C24", 350},
             {"C30", 380},
             {"C35", 390},
             {"C40", 400},

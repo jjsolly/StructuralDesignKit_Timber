@@ -207,7 +207,7 @@ namespace StructuralDesignKitExcel
             {
                 if (axis != 0 && axis != 1) throw new Exception("Axis should be either 0 or 1");
                 var CS = ExcelHelpers.CreateRectangularCrossSection(CrossSection);
-                Kc = EC5_Factors.Kc(CS, CS.Material, BucklingLength_Y, BucklingLength_Z,FireCheck)[axis];
+                Kc = EC5_Factors.Kc(CS, CS.Material, BucklingLength_Y, BucklingLength_Z, FireCheck)[axis];
 
             }
             catch (Exception e)
@@ -237,7 +237,7 @@ namespace StructuralDesignKitExcel
             try
             {
                 var CS = ExcelHelpers.CreateRectangularCrossSection(CrossSection);
-                kcrit = EC5_Factors.Kcrit(CS.Material, CS, LatBucklingLength,FireCheck);
+                kcrit = EC5_Factors.Kcrit(CS.Material, CS, LatBucklingLength, FireCheck);
 
             }
             catch (Exception e)
@@ -510,16 +510,49 @@ namespace StructuralDesignKitExcel
         }
 
 
-        #endregion
 
-
-        #region Eurocode 5 Cross-section checks
-
-
+     
         //-------------------------------------------
-        //Tension parallel to the grain §6.1.2
+        //Kv
         //-------------------------------------------
-        [ExcelFunction(Description = "Tension parallel to the grain §6.1.2",
+        [ExcelFunction(Description = "Reduction factor for notched beam support according to DIN EN 1995-1  §6.5.2 (2)",
+            Name = "SDK.Factors.Kv",
+            IsHidden = false,
+            Category = "SDK.EC5_Factors")]
+
+        public static double Kv([ExcelArgument(Description = "Material")] string material,
+            [ExcelArgument(Description = "Bean depth")] double h,
+
+			[ExcelArgument(Description = "residual Bean depth")] double heff,
+			[ExcelArgument(Description = "Distance from the line of action of the support reaction to the corner of the notch")] double x,
+            [ExcelArgument(Description = "length of the notch in the grain direction \"i x (h-heff)\"")] double l)
+		{
+			double kv = 0;
+
+			try
+			{
+				var timber = ExcelHelpers.GetTimberMaterialFromTag(material);
+                kv = EC5_Factors.Kv(timber, h, heff, x, l);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+			}
+
+			return kv;
+		}
+
+
+		#endregion
+
+
+		#region Eurocode 5 Cross-section checks
+
+
+		//-------------------------------------------
+		//Tension parallel to the grain §6.1.2
+		//-------------------------------------------
+		[ExcelFunction(Description = "Tension parallel to the grain §6.1.2",
             Name = "SDK.CrossSectionChecks.TensionParallelToGrain_6.1.2",
             IsHidden = false,
             Category = "SDK.EC5_CrossSection_Checks")]
