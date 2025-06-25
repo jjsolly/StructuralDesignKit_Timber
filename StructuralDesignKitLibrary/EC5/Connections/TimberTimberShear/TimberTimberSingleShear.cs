@@ -11,8 +11,8 @@ namespace StructuralDesignKitLibrary.Connections.TimberTimberShear
 	public class TimberTimberSingleShear : ITimberTimberShear
 	{
 
-
-		public IFastener Fastener { get; set; }
+        #region Properties
+        public IFastener Fastener { get; set; }
 		public double Angle1 { get; set; }
 		public double Angle2 { get; set; }
 		public IMaterialTimber Timber1 { get; set; }
@@ -31,7 +31,9 @@ namespace StructuralDesignKitLibrary.Connections.TimberTimberShear
 		public double Kser { get; set; }
 		public double Ku { get; set; }
 
-		public TimberTimberSingleShear(IFastener fastener, IMaterialTimber timber1, double timberThickness1, double angle1, IMaterialTimber timber2, double timberThickness2, double angle2, bool ropeEffect)
+        #endregion
+
+        public TimberTimberSingleShear(IFastener fastener, IMaterialTimber timber1, double timberThickness1, double angle1, IMaterialTimber timber2, double timberThickness2, double angle2, bool ropeEffect)
 		{
 			Fastener = fastener;
 			Angle1 = angle1;

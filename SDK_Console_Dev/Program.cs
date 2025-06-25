@@ -3,17 +3,13 @@ using StructuralDesignKitLibrary.Connections.SteelTimberShear;
 using StructuralDesignKitLibrary.Connections.TimberTimberShear;
 using StructuralDesignKitLibrary.EC5;
 using StructuralDesignKitLibrary.Materials;
-using StructuralDesignKitLibrary.RFEM;
+using StructuralDesignKitLibrary.Vibrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SDK = StructuralDesignKitLibrary;
-using ApplicationClient = Dlubal.WS.Rfem6.Application.RfemApplicationClient;
-using ModelClient = Dlubal.WS.Rfem6.Model.RfemModelClient;
-using Dlubal.WS.Rfem6.Application;
-using Dlubal.WS.Rfem6.Model;
 using StructuralDesignKitLibrary.CrossSections;
 using System.Diagnostics;
 

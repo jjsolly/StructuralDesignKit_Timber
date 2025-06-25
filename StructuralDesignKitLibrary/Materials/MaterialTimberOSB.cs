@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using StructuralDesignKitLibrary.EC5;
 using static StructuralDesignKitLibrary.EC5.EC5_Utilities;
-using Dlubal.WS.Rfem6.Model;
+//using Dlubal.WS.Rfem6.Model;
 
 namespace StructuralDesignKitLibrary.Materials
 {

@@ -7,7 +7,6 @@ using StructuralDesignKitLibrary;
 using StructuralDesignKitLibrary.EC5;
 using System.Globalization;
 using System.Reflection;
-using Dlubal.WS.Rfem6.Model;
 using System.IO;
 using System;
 using StructuralDesignKitLibrary.CrossSections.Interfaces;
@@ -17,7 +16,7 @@ namespace StructuraldesignKitTesting
     public class EC5CrossSectionTest
     {
 
-        private static string TestFilePath = @"C:\Users\Guillaume Caussarieu\source\repos\StructuralDesignKit_Timber\StructuraldesignKitTesting\TestData\Test_CrossSections.xlsx";
+        private static string TestFilePath = @"C:\Users\jjs\Documents\Github\StructuralDesignKit_Timber\StructuraldesignKitTesting\TestData\Test_CrossSections.xlsx";
         private static Excel.Application XlApp = new Excel.Application();
 
 		#region TestFunctions

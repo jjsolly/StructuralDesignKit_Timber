@@ -45,7 +45,7 @@ namespace StructuralDesignKitLibrary.EC5
 			Dowel,
 			Nail,
 			//Staple,
-			//Screw,
+			Screw,
 			//Bulldog,
 			//Ring,
 			//...
