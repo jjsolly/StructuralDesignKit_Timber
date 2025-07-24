@@ -98,8 +98,13 @@ namespace StructuralDesignKitLibrary.Connections.Fasteners
 		[Description("Define the Minimum spacing to unloaded end in mm")]
 		private double DefineA3cMin(double angle)
 		{
+			//double AngleRad = angle * Math.PI / 180;
+			//if (angle <= 150 && angle < 210) return 4 * Diameter;
+			//else return (1 + 6 * Math.Sin(AngleRad)) * Diameter;
+
+			//fonction modified to represent angle in the first quadrant, going from 90° to 0° 
 			double AngleRad = angle * Math.PI / 180;
-			if (angle <= 150 && angle < 210) return 4 * Diameter;
+			if (angle < 60 ) return 4 * Diameter;
 			else return (1 + 6 * Math.Sin(AngleRad)) * Diameter;
 		}
 

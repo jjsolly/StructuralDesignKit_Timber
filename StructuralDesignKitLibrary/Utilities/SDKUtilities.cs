@@ -40,6 +40,16 @@ namespace StructuralDesignKitLibrary.Utilities
             }
         }
 
+        /// <summary>
+        /// Returns an angle in degree from Radian
+        /// </summary>
+        /// <param name="angleInRad"></param>
+        /// <returns></returns>
+        public static double RadianToDegree(double angleInRad)
+        {
+            return angleInRad * 180 / Math.PI;
+        }
+
     }
 
 }

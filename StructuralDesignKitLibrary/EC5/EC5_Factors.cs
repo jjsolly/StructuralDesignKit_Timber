@@ -445,14 +445,19 @@ namespace StructuralDesignKitLibrary.EC5
 		/// </summary>
 		/// <param name="crossSection">Cross section object</param>
 		/// <param name="material">Material object</param>
-		/// <param name="Leff_Y">Buckling length along Y in mm</param>
-		/// <param name="Leff_Z">Buckling Length along Z in mm</param>
+		/// <param name="Leff_Y">Buckling length along Y in m</param>
+		/// <param name="Leff_Z">Buckling Length along Z in m</param>
 		/// <param name="FireCheck">if the factor is defined for a fire check, the material properties are increased by the factor Kfi</param>
 		/// <returns>Returns the buckling instability factors kcy and kcz as a list of doubles </double></returns>
 		/// <exception cref="Exception"></exception>
 		[Description("Conmputes and returns the buckling instability factors kcy and kcz as a list of doubles - According to EN 1995-1 Eq(6.27) + Eq(6.28)")]
 		public static List<double> Kc(ICrossSection crossSection, IMaterial material, double Leff_Y, double Leff_Z, bool FireCheck)
 		{
+
+			//Change buckling length from m to mm
+			Leff_Y *= 1000;
+			Leff_Z *= 1000;
+
 
 			if (!(crossSection is CrossSectionRectangular)) throw new Exception("The buckling Factor Kc is currently only implemented for rectangular cross section");
 			CrossSectionRectangular RectCS = (CrossSectionRectangular)crossSection;
@@ -518,11 +523,19 @@ namespace StructuralDesignKitLibrary.EC5
 		/// </summary>
 		/// <param name="material">Material object</param>
 		/// <param name="crossSection">Cross section object</param>
-		/// <param name="Leff">Lateral buckling effective length in mm</param>
+		/// <param name="Leff">Lateral buckling effective length in m</param>
 		/// <returns>return the Kcrit factor</returns>
 		/// <exception cref="Exception"></exception>
-		public static double Kcrit(IMaterial material, ICrossSection crossSection, double Leff, bool FireCheck)
+		public static double Kcrit(IMaterial material, CrossSectionRectangular crossSection, double Leff, bool FireCheck)
 		{
+
+			
+			Leff *= 1000;
+			Leff += crossSection.H;
+
+			//By default and for safety the length is increased by 2x beam height to consider that the load can be applied at the top of the beam
+			//Conservative - Need to introduce a new parameter
+
 			if (!(material is IMaterialTimber)) throw new Exception("Kcrit can only be calculated fot timber material");
 			var timber = (IMaterialTimber)material;
 
@@ -834,22 +847,30 @@ namespace StructuralDesignKitLibrary.EC5
 
 
 				double i = l / (h - heff);
-				double alpha = heff / h;
 
-				double kv_top = kn * (1 + (1.1 * Math.Pow(i, 1.5)) / Math.Sqrt(h));
-				double kv_bottom = Math.Sqrt(h) * (Math.Sqrt(alpha * (1 - alpha)) + 0.8 * x / h * Math.Sqrt(1 / alpha - Math.Pow(alpha, 2)));
-				kv = Math.Min(1, kv_top/kv_bottom);
+				if (h == heff) kv = 1;
 
+				else if(heff > h) throw new Exception("heff cannot be higher than h");
+
+				else
+				{
+					double alpha = heff / h;
+
+					double kv_top = kn * (1 + (1.1 * Math.Pow(i, 1.5)) / Math.Sqrt(h));
+					double kv_bottom = Math.Sqrt(h) * (Math.Sqrt(alpha * (1 - alpha)) + 0.8 * x / h * Math.Sqrt(1 / alpha - Math.Pow(alpha, 2)));
+					kv = Math.Min(1, kv_top / kv_bottom);
+
+				}
 			}
 
 			else throw new Exception("Material is not defined as timber");
 
 			return kv;
 		}
-			#endregion
+		#endregion
 
 
-		}
 	}
+}
 
 

@@ -360,8 +360,8 @@ namespace StructuralDesignKitLibrary.EC5
         /// <param name="SigMyd">Design bending stress in cross section Y axis</param>
         /// <param name="SigMzd">Design bending stress in cross section Z axis</param>
         /// <param name="Sig0_c_d">Design compressive stress</param>
-        /// <param name="Leff_Y">Effective Buckling length along Y in mm</param>
-        /// <param name="Leff_Z">Effective Buckling Length along Z in mm</param>
+        /// <param name="Leff_Y">Effective Buckling length along Y in m</param>
+        /// <param name="Leff_Z">Effective Buckling Length along Z in m</param>
         /// <param name="crossSection">Cross Section Object</param>
         /// <param name="material">Material Object</param>
         /// <param name="Kmod">modification factor</param>
@@ -407,9 +407,9 @@ namespace StructuralDesignKitLibrary.EC5
         /// <param name="SigMyd">Design bending stress in cross section Y axis</param>
         /// <param name="SigMzd">Design bending stress in cross section Z axis</param>
         /// <param name="Sig0_c_d">Design compressive stress</param>
-        /// <param name="Leff_Y">Effective Buckling length along Y in mm</param>
-        /// <param name="Leff_Z">Effective Buckling Length along Z in mm</param>
-        /// <param name="Leff_LTB">Effective Lateral Buckling length in mm</param>
+        /// <param name="Leff_Y">Effective Buckling length along Y in m</param>
+        /// <param name="Leff_Z">Effective Buckling Length along Z in m</param>
+        /// <param name="Leff_LTB">Effective Lateral Buckling length in m</param>
         /// <param name="crossSection">Cross Section Object</param>
         /// <param name="material">Material Object</param>
         /// <param name="Kmod">modification factor</param>

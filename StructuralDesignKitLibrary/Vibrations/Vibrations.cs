@@ -348,8 +348,8 @@ namespace StructuralDesignKitLibrary.Vibrations
         {
             double W = 1;
             //Weighting Wg according to SCI P354 - Table 5.1
-            if (weighting == Weighting.CirculationSpace || weighting == Weighting.Workshop)
-            {
+            if (weighting == Weighting.CriticalWorkingArea)
+			{
                 if (f > 1 && f < 4) W = 0.5 * Math.Sqrt(f);
                 else if (f >= 4 && f <= 8) W = 1;
                 else if (f > 8) W = 8 / f;
@@ -363,11 +363,12 @@ namespace StructuralDesignKitLibrary.Vibrations
                 else if (f > 16) W = 16 / f;
                 else throw new Exception("frequency not covered in weighting Wb");
             }
-            else if (weighting == Weighting.CriticalWorkingArea)
-            {
+            else if (weighting == Weighting.CirculationSpace || weighting == Weighting.Workshop)
+
+			{
                 if (f > 1 && f < 2) W = 1;
                 else if (f >= 2) W = 2 / f;
-                else throw new Exception("frequency not covered in weighting Wb");
+                else throw new Exception("frequency not covered in weighting Wd");
             }
 
             else if (weighting == Weighting.CriticalWorkingArea) W = 1;

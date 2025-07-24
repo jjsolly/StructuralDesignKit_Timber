@@ -512,9 +512,9 @@ namespace StructuralDesignKitExcel
             xlApp.Range[YmAdr].Formula = String.Format("=SDK.Factors.Ym({0})", MaterialAdr);
             xlApp.Range[khyAdr].Formula = String.Format("=SDK.Factors.Kh_Bending({0},{1})", MaterialAdr, hAdr);
             xlApp.Range[khzAdr].Formula = String.Format("=SDK.Factors.Kh_Bending({0},{1})", MaterialAdr, bAdr);
-            xlApp.Range[kcyAdr].Formula = String.Format("=SDK.Factors.Kc({0},{1}*1000,{2}*1000,0,{3})", CSAdr, BuckLyAdr, BuckLzAdr, FireAdr);
-            xlApp.Range[kczAdr].Formula = String.Format("=SDK.Factors.Kc({0},{1}*1000,{2}*1000,1,{3})", CSAdr, BuckLyAdr, BuckLzAdr, FireAdr);
-            xlApp.Range[kcritAdr].Formula = String.Format("=SDK.Factors.Kcrit({0},{1}*1000,{2})", CSAdr, LTBAdr, FireAdr);
+            xlApp.Range[kcyAdr].Formula = String.Format("=SDK.Factors.Kc({0},{1},{2},0,{3})", CSAdr, BuckLyAdr, BuckLzAdr, FireAdr);
+            xlApp.Range[kczAdr].Formula = String.Format("=SDK.Factors.Kc({0},{1},{2},1,{3})", CSAdr, BuckLyAdr, BuckLzAdr, FireAdr);
+            xlApp.Range[kcritAdr].Formula = String.Format("=SDK.Factors.Kcrit({0},{1},{2})", CSAdr, LTBAdr, FireAdr);
             xlApp.Range[kcrAdr].Formula = String.Format("=SDK.Factors.Kcr({0})", MaterialAdr);
             xlApp.Range[Kh_TensionAdr].Formula = String.Format("=SDK.Factors.Kh_Tension({0},{1},{2})", MaterialAdr, bAdr, hAdr);
             xlApp.Range[Kh_TensionLVLAdr].Formula = String.Format("=SDK.Factors.Kl_LVL({0},{1}*1000)", MaterialAdr, TensionLengthAdr);
