@@ -568,10 +568,10 @@ namespace StructuralDesignKitExcel
 			activeCell = activeCell.Offset[1, 0]; activeCell.Formula = string.Format("=SDK.CrossSectionChecks.BendingAndCompression_6.2.4({0},{1},{2},{3},{4},{5},{6},{7},{8})",
                 SigMyAdr, SigMzAdr, SigNCompAdr, CSAdr, kmodAdr, YmAdr, khyAdr, khzAdr, FireAdr);
 
-            activeCell = activeCell.Offset[1, 0]; activeCell.Formula = string.Format("=SDK.CrossSectionChecks.BendingAndBuckling_6.3.2({0},{1},{2},{3}*1000,{4}*1000,{5},{6},{7},{8},{9},{10})",
+            activeCell = activeCell.Offset[1, 0]; activeCell.Formula = string.Format("=SDK.CrossSectionChecks.BendingAndBuckling_6.3.2({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10})",
                 SigMyAdr, SigMzAdr, SigNCompAdr, BuckLyAdr, BuckLzAdr, CSAdr, kmodAdr, YmAdr, khyAdr, khzAdr, FireAdr);
 
-            activeCell = activeCell.Offset[1, 0]; activeCell.Formula = string.Format("=SDK.CrossSectionChecks.LateralTorsionalBuckling_6.3.3({0},{1},{2},{3}*1000,{4}*1000,{5}*1000,{6},{7},{8},{9},{10},{11})",
+            activeCell = activeCell.Offset[1, 0]; activeCell.Formula = string.Format("=SDK.CrossSectionChecks.LateralTorsionalBuckling_6.3.3({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11})",
                 SigMyAdr, SigMzAdr, SigNCompAdr, BuckLyAdr, BuckLzAdr, LTBAdr, CSAdr, kmodAdr, YmAdr, khyAdr, khzAdr, FireAdr);
 
             activeCell = activeCell.Offset[1, 0]; activeCell.Formula = string.Format("=SDK.CrossSectionChecks.Shear_6.1.7({0},{1},{2},{3},{4},{5})",

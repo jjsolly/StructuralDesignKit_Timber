@@ -419,7 +419,7 @@ namespace StructuralDesignKitLibrary.EC5
         /// <returns>Return the largest value of the 4 equations considered</returns>
         /// <exception cref="Exception"></exception>
         [Description("Lateral Torsional buckling according to DIN EN 1995-1 §6.3.3 Eq(6.33) + Eq(6.35) + Eq(NA.60) + Eq(NA.61)")]
-        public static double LateralTorsionalBuckling(double SigMyd, double SigMzd, double Sig0_c_d, double Leff_Y, double Leff_Z, double Leff_LTB, ICrossSection crossSection, IMaterial material, double Kmod, double Ym, double khy = 1, double khz = 1, bool FireCheck = false)
+        public static double LateralTorsionalBuckling(double SigMyd, double SigMzd, double Sig0_c_d, double Leff_Y, double Leff_Z, double Leff_LTB, CrossSectionRectangular crossSection, IMaterial material, double Kmod, double Ym, double khy = 1, double khz = 1, bool FireCheck = false)
         {
 
             if (!(material is IMaterialTimber)) throw new Exception("This method is currently only implemented for timber materials");
