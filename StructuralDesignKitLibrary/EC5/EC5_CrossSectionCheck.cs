@@ -175,7 +175,7 @@ namespace StructuralDesignKitLibrary.EC5
 
             var timber = (IMaterialTimber)material;
 
-            List<double> ShearResults = ComputeShearCheck(TauYd, TauZd, material, Kmod, Ym);
+            List<double> ShearResults = ComputeShearCheck(TauYd, TauZd, material, Kmod, Ym, FireCheck);
 
             var sortedShearResults = ShearResults.OrderByDescending(p => p).ToList();
 
@@ -253,7 +253,7 @@ namespace StructuralDesignKitLibrary.EC5
             double fv_k = timber.Fvk;
 
 
-            var combinedShear = ComputeShearCheck(TauYd, TauZd, material, Kmod, Ym)[2];
+            var combinedShear = ComputeShearCheck(TauYd, TauZd, material, Kmod, Ym, FireCheck)[2];
 
             double Kshape = EC5_Factors.KShape(crossSection, material);
 
