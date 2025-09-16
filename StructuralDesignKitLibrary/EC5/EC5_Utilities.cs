@@ -44,21 +44,21 @@ namespace StructuralDesignKitLibrary.EC5
 			Bolt,
 			Dowel,
 			Nail,
-			//Staple,
 			Screw,
-			//Bulldog,
-			//Ring,
-			//...
-		}
+            //Staple,
+            //Bulldog,
+            //Ring,
+            //...
+        }
 
-		#region FireDesign
-		/// <summary>
-		/// Return the effective charring depth of an exposed timber linear member (beam, column, ...). Result is in [mm] per exposed face
-		/// </summary>
-		/// <param name="t">exposed duration</param>
-		/// <param name="timber">Timber member material</param>
-		/// <returns></returns>
-		public static double ComputeCharringDepthUnprotectedBeam(int t, IMaterialTimber timber)
+        #region FireDesign
+        /// <summary>
+        /// Return the effective charring depth of an exposed timber linear member (beam, column, ...). Result is in [mm] per exposed face
+        /// </summary>
+        /// <param name="t">exposed duration</param>
+        /// <param name="timber">Timber member material</param>
+        /// <returns></returns>
+        public static double ComputeCharringDepthUnprotectedBeam(int t, IMaterialTimber timber)
 		{
 			//No strength layer according to DIN EN 1995-1-2 §4.2.2
 			double d0 = 7.0;
