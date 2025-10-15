@@ -383,7 +383,6 @@ namespace StructuralDesignKitLibrary.EC5
                 Ym = 1;
             }
 
-
             var timber = (IMaterialTimber)material;
             double fmy_k = timber.Fmyk;
             double fmz_k = timber.Fmzk;
