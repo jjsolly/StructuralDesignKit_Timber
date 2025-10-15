@@ -462,17 +462,45 @@ namespace StructuralDesignKitLibrary.EC5
 			}
 
 		}
+        /// <summary>
+        /// Helper function to get Material from a grade string
+        /// </summary>
+        /// <param name="grade"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static IMaterialTimber GetTimberFromGrade(string grade)
+		{
+			//Check each current set of material grades against input grade
+			var softType = typeof(MaterialTimberSoftwood.Grades);
+			bool isSoft = Enum.IsDefined(softType, grade);
+			if (isSoft) return new MaterialTimberSoftwood(grade);
+
+			var hardType = typeof(MaterialTimberHardwood.Grades);
+			bool isHard = Enum.IsDefined(hardType, grade);
+			if(isHard) return new MaterialTimberHardwood(grade);
+
+			var glulamType = typeof(MaterialTimberGlulam.Grades);
+			bool isGlulam = Enum.IsDefined(glulamType, grade);
+			if (isGlulam) return new MaterialTimberGlulam(grade);
+
+			var baubucheType = typeof(MaterialTimberBaubuche.Grades);
+			bool isBaubuche = Enum.IsDefined(baubucheType, grade);
+			if (isBaubuche) return new MaterialTimberBaubuche(grade);
+
+			throw new Exception("The grade " + grade + " could not be found in the current timber material database");
+
+        }
 
 
-		/// <summary>
-		/// Calculation of Kmod for connection with different timber types according to EN 1995-1-1 §2.3.2.1 
-		/// </summary>
-		/// <param name="timber1"></param>
-		/// <param name="timber2"></param>
-		/// <param name="SC">Service Class</param>
-		/// <param name="LD">Load Duration</param>
-		/// <returns></returns>
-		public static double KmodFromDifferentWood(IMaterialTimber timber1, IMaterialTimber timber2, ServiceClass SC, LoadDuration LD)
+        /// <summary>
+        /// Calculation of Kmod for connection with different timber types according to EN 1995-1-1 §2.3.2.1 
+        /// </summary>
+        /// <param name="timber1"></param>
+        /// <param name="timber2"></param>
+        /// <param name="SC">Service Class</param>
+        /// <param name="LD">Load Duration</param>
+        /// <returns></returns>
+        public static double KmodFromDifferentWood(IMaterialTimber timber1, IMaterialTimber timber2, ServiceClass SC, LoadDuration LD)
 		{
 			double kmod1 = EC5_Factors.Kmod(timber1.Type, SC, LD);
 			double kmod2 = EC5_Factors.Kmod(timber2.Type, SC, LD);

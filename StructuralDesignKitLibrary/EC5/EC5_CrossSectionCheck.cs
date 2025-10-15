@@ -127,6 +127,9 @@ namespace StructuralDesignKitLibrary.EC5
         {
             if (!(material is IMaterialTimber)) throw new Exception("This method is currently only implemented for timber materials");
 
+            //JJS_note - do we definitely need to pass both crossSection and material here? Material is already part of crossSection - note this occurs elsewhere also
+            //JJS_note - as khy and khz can be calculated from the cross section and material, do we need to pass these either? - note this occurs elsewhere also
+
             //Fire factors
             double kfi = 1;
             if (FireCheck)
