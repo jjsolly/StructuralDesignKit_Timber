@@ -423,6 +423,15 @@ namespace StructuralDesignKitLibrary.EC5
         [Description("Lateral Torsional buckling according to DIN EN 1995-1 §6.3.3 Eq(6.33) + Eq(6.35) + Eq(NA.60) + Eq(NA.61)")]
         public static double LateralTorsionalBuckling(double SigMyd, double SigMzd, double Sig0_c_d, double Leff_Y, double Leff_Z, double Leff_LTB, CrossSectionRectangular crossSection, IMaterial material, double Kmod, double Ym, double khy = 1, double khz = 1, bool FireCheck = false)
         {
+            List <double> resultList = new List<double>();
+            double util = LateralTorsionalBuckling(SigMyd, SigMzd, Sig0_c_d, Leff_Y, Leff_Z, Leff_LTB, crossSection, material, Kmod, Ym, out resultList, khy, khz, FireCheck);
+
+            List<double> results = resultList.OrderByDescending(p => p).ToList();
+            return results[0];
+        }
+
+        public static double LateralTorsionalBuckling(double SigMyd, double SigMzd, double Sig0_c_d, double Leff_Y, double Leff_Z, double Leff_LTB, CrossSectionRectangular crossSection, IMaterial material, double Kmod, double Ym, out List<double> resultList, double khy = 1, double khz = 1, bool FireCheck = false)
+        {
 
             if (!(material is IMaterialTimber)) throw new Exception("This method is currently only implemented for timber materials");
 
@@ -455,21 +464,21 @@ namespace StructuralDesignKitLibrary.EC5
             //To our appreciation, this could lead to unsafe designs as a small compressive forces could eventually result in a much lower utilisation ratio
 
 
-                Eq6_33 = SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi);
-                Eq6_35 = Math.Pow(SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi), 2) + Sig0_c_d / (kc[1] * fc0_k * Kmod / Ym * kfi);
+            Eq6_33 = SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi);
+            Eq6_35 = Math.Pow(SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi), 2) + Sig0_c_d / (kc[1] * fc0_k * Kmod / Ym * kfi);
 
-                var cs = (CrossSectionRectangular)crossSection;
+            var cs = (CrossSectionRectangular)crossSection;
 
-                //According to DIN EN 1995 §NA.7
-                if (cs.H / cs.B >= 4 || (SigMyd > 0 && SigMzd > 0))
-                {
-                    EqNA_60 = Sig0_c_d / (kc[0] * fc0_k * Kmod / Ym * kfi) + SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi) + Math.Pow(SigMzd / (fmz_k * Kmod / Ym * kfi), 2);
+            //According to DIN EN 1995 §NA.7
+            if (cs.H / cs.B >= 4 || (SigMyd > 0 && SigMzd > 0))
+            {
+                EqNA_60 = Sig0_c_d / (kc[0] * fc0_k * Kmod / Ym * kfi) + SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi) + Math.Pow(SigMzd / (fmz_k * Kmod / Ym * kfi), 2);
+                EqNA_61 = Sig0_c_d / (kc[1] * fc0_k * Kmod / Ym * kfi) + Math.Pow(SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi), 2) + SigMzd / (fmz_k * Kmod / Ym * kfi);
+            }
 
-                    EqNA_61 = Sig0_c_d / (kc[1] * fc0_k * Kmod / Ym * kfi) + Math.Pow(SigMyd / (kcrit * fmy_k * Kmod / Ym * kfi), 2) + SigMzd / (fmz_k * Kmod / Ym * kfi);
-                }
-            
 
-            List<double> results = new List<double>() { Eq6_33, Eq6_35, EqNA_60, EqNA_61 }.OrderByDescending(p => p).ToList();
+            List<double> results = new List<double>() { Eq6_33, Eq6_35, EqNA_60, EqNA_61};
+            resultList = results;
 
             return results[0];
         }
