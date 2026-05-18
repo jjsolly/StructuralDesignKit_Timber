@@ -123,6 +123,7 @@
     <Compile Include="Materials\Interfaces\IMaterial.cs" />
     <Compile Include="Materials\Interfaces\IMaterialCLT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RFEM\**\*.cs" />
     <Compile Include="Utilities\ConnectionUtilities.cs" />
     <Compile Include="Utilities\SDKUtilities.cs" />
     <Compile Include="Vibrations\Vibrations.cs" />
