@@ -477,10 +477,10 @@ namespace StructuralDesignKitLibrary.EC5
             }
 
 
-            List<double> results = new List<double>() { Eq6_33, Eq6_35, EqNA_60, EqNA_61};
+            List<double> results = new List<double>() { Eq6_33, Eq6_35, EqNA_60, EqNA_61 };
             resultList = results;
 
-            return results[0];
+            return results.Max();
         }
 
 
