@@ -134,8 +134,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\jjs\AppData\Roaming\Grasshopper\Libraries\StructuralDesignKitLibrary.gha"
-Erase "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\jjs\AppData\Roaming\Grasshopper\Libraries\StructuralDesignKitLibrary.gha"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\RhinoCommon.8.24.25281.15001\build\net48\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.8.24.25281.15001\build\net48\RhinoCommon.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
