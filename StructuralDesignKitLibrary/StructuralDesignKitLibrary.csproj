@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,11 +46,24 @@
       <HintPath>U:\Desktop\Temp dev data\Dlubal.RFEM5.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Ed.Eto, Version=1.0.0.0, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.8.24.25281.15001\lib\net48\Ed.Eto.dll</HintPath>
+    </Reference>
+    <Reference Include="Eto, Version=2.9.0.0, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.8.24.25281.15001\lib\net48\Eto.dll</HintPath>
+    </Reference>
     <Reference Include="RFEMWebServiceLibrary, Version=6.8.11.0, Culture=neutral, PublicKeyToken=8caede8f8d3e8158, processorArchitecture=MSIL">
       <HintPath>..\packages\Dlubal.RFEMWebServiceLibrary.6.8.11\lib\net48\RFEMWebServiceLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.UI, Version=8.24.25281.15001, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.8.24.25281.15001\lib\net48\Rhino.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RhinoCommon, Version=8.24.25281.15001, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoCommon.8.24.25281.15001\lib\net48\RhinoCommon.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -91,6 +106,7 @@
     <Compile Include="CrossSections\CrossSectionRectangular.cs" />
     <Compile Include="CrossSections\Interfaces\ICrossSection.cs" />
     <Compile Include="EC5\EC5_ConnectionCheck.cs" />
+    <Compile Include="EC5\EC5_MemberCheck.cs" />
     <Compile Include="EC5\EC5_CrossSectionCLTChecks.cs" />
     <Compile Include="EC5\EC5_CrossSectionCheck.cs" />
     <Compile Include="EC5\EC5_Factors.cs" />
@@ -107,10 +123,7 @@
     <Compile Include="Materials\Interfaces\IMaterial.cs" />
     <Compile Include="Materials\Interfaces\IMaterialCLT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RFEM\Interface\IRFEM_Utilities_Interface.cs" />
-    <Compile Include="RFEM\ModeShape.cs" />
-    <Compile Include="RFEM\RFEM5_Utilities.cs" />
-    <Compile Include="RFEM\RFEM6_Utilities.cs" />
+    <Compile Include="Utilities\ConnectionUtilities.cs" />
     <Compile Include="Utilities\SDKUtilities.cs" />
     <Compile Include="Vibrations\Vibrations.cs" />
   </ItemGroup>
@@ -120,6 +133,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\Guillaume Caussarieu\AppData\Roaming\Grasshopper\Libraries\SDK\StructuralDesignKitLibrary.dll</PostBuildEvent>
+    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\jjs\AppData\Roaming\Grasshopper\Libraries\StructuralDesignKitLibrary.gha"
+Erase "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\RhinoCommon.8.24.25281.15001\build\net48\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.8.24.25281.15001\build\net48\RhinoCommon.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\RhinoCommon.8.24.25281.15001\build\net48\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.8.24.25281.15001\build\net48\RhinoCommon.targets'))" />
+  </Target>
 </Project>
