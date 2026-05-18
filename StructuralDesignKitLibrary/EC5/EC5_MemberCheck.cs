@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using StructuralDesignKitLibrary.CrossSections;
 using System.Security.Policy;
+using System.IdentityModel.Protocols.WSTrust;
 
 namespace StructuralDesignKitLibrary.EC5
 {
@@ -52,7 +53,7 @@ namespace StructuralDesignKitLibrary.EC5
             report.Add("Rectangular Section Check to EN 1995-1");
             report.Add("Cross Section: " + crossSection.Name + " (b=" + crossSection.B + "mm, h=" + crossSection.H + "mm)");
             report.Add("Material " + crossSectionMaterial.Type + " Grade "+crossSectionMaterial.Grade);
-            report.Add("kmod=" + kmod + ", gamma_M=" + gamma_M + ", khy=" + Math.Round(khy,2) + ", khz=" + Math.Round(khz,2) + ", kht=" + Math.Round(kht,2) + ", kl_lvl=" + Math.Round(kl_lvl,2));
+            report.Add("kmod=" + kmod + ", gamma_M=" + gamma_M + ", khy=" + Math.Round(khy, 2) + ", khz=" + Math.Round(khz, 2) + ", kht=" + Math.Round(kht, 2) + ", kl_lvl=" + Math.Round(kl_lvl, 2));
 
             //Setup variables to be used in checking
             double sig_myd = 0.0;
@@ -77,6 +78,7 @@ namespace StructuralDesignKitLibrary.EC5
                 double check612 = EC5_CrossSectionCheck.TensionParallelToGrain(sig_t0d, crossSectionMaterial, kmod, gamma_M, kht, kl_lvl, false);
 
                 report.Add("Section under tension - clause 6.1.2");
+                report.Add("Axial Stress, sig_t0d = " + Math.Round(sig_t0d,2)+" N/mm²");
                 report.Add("Util=" + Math.Round(check612, 2));
                 utilisations.Add(check612);
             }
@@ -88,6 +90,7 @@ namespace StructuralDesignKitLibrary.EC5
                 double check614 = EC5.EC5_CrossSectionCheck.CompressionParallelToGrain(sig_c0d, crossSectionMaterial, kmod, gamma_M, false);
 
                 report.Add("Section under compression - clause 6.1.4");
+                report.Add("Axial Stress, sig_c0d = " + Math.Round(sig_c0d, 2) + " N/mm²");
                 report.Add("Utilisation=" + Math.Round(check614, 2));
                 utilisations.Add(check614);
             }
@@ -101,6 +104,8 @@ namespace StructuralDesignKitLibrary.EC5
                 double check616 = EC5.EC5_CrossSectionCheck.Bending(sig_myd, sig_mzd, crossSection, crossSectionMaterial, kmod, gamma_M, khy, khz, false);
 
                 report.Add("Section under bending - clause 6.1.6");
+                report.Add("Bending Stress, sig_myd = " + Math.Round(sig_myd, 2) + " N/mm²");
+                report.Add("Bending Stress, sig_mzd = " + Math.Round(sig_mzd, 2) + " N/mm²");
                 report.Add("Utilisation=" + Math.Round(check616, 2));
                 utilisations.Add(check616);
             }
@@ -114,6 +119,8 @@ namespace StructuralDesignKitLibrary.EC5
                 double check617 = EC5.EC5_CrossSectionCheck.Shear(tau_yd, tau_zd, crossSectionMaterial, kmod, gamma_M, false);
 
                 report.Add("Section under shear - clause 6.1.7");
+                report.Add("Shear Stress, tau_yd = " + Math.Round(tau_yd, 2) + " N/mm²");
+                report.Add("Shear Stress, tau_zd = " + Math.Round(tau_zd, 2) + " N/mm²");
                 report.Add("Utilisation=" + Math.Round(check617, 2));
                 utilisations.Add(check617);
             }
@@ -126,6 +133,7 @@ namespace StructuralDesignKitLibrary.EC5
                 double check618 = EC5.EC5_CrossSectionCheck.Torsion(tau_tord, tau_yd, tau_zd, crossSection, crossSectionMaterial, kmod, gamma_M, false);
 
                 report.Add("Section under torsion - clause 6.1.8");
+                report.Add("Shear Stress, tau_xd = " + Math.Round(tau_tord, 2) + " N/mm²");
                 report.Add("Utilisation=" + Math.Round(check618, 2));
                 utilisations.Add(check618);
             }
@@ -210,6 +218,11 @@ namespace StructuralDesignKitLibrary.EC5
             report.Add("Fire Duration: " + fireMinutes + " minutes");
             report.Add("Fire Affected Cross Section: " + crossSection.Name + " (b=" + crossSection.B + "mm, h=" + crossSection.H + "mm)");
             report.Add("Material: " + crossSectionMaterial.Type + "Grade+" + crossSectionMaterial.Grade);
+
+            //modified properties under fire loading - note that the checking code also handles this - but putting it here for incorporation into the report
+            gamma_M = 1.0;
+            kmod = 1.0;
+
             report.Add("kmod=" + kmod + ", gamma_M=" + gamma_M + ", khy=" + Math.Round(khy, 2) + ", khz=" + Math.Round(khz, 2) + ", kht=" + Math.Round(kht, 2) + ", kl_lvl=" + Math.Round(kl_lvl, 2));
 
             //Setup variables to be used in checking
